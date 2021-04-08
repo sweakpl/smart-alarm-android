@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SmartAlarm</string>
+    <string name="start_alarm">Start</string>
+    <string name="stop_alarm">Stop</string>
+    <string name="set_alarm_time">Set alarm time</string>
+    <string name="alert_dialog_ok">Done</string>
+    <string name="preference_file_key">com.sweak.smartalarm.SHARED_PREFERENCES_KEY</string>
+</resources>
