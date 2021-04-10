@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -42,13 +43,17 @@ public class AlarmService extends Service {
         PendingIntent contentPendingIntent = PendingIntent.getActivity
                 (this, NOTIFICATION_ID, contentIntent, 0);
 
+        long[] vibrationPattern = {0, 1000, 2000};
+
         mNotification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentIntent(contentPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_alarm_on)
                 .setContentTitle("Alarm off!")
                 .setContentText("Time to wake up!")
-                .setContentIntent(contentPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setOngoing(true)
+                .setLights(Color.GREEN, 1000, 1000)
+                .setVibrate(vibrationPattern)
                 .build();
 
         mNotification.flags |= Notification.FLAG_INSISTENT;

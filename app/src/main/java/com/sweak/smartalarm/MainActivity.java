@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Preferences mPreferences;
     private AlarmSetter mAlarmSetter;
+    private Button mMenuButton;
     private TextClock mCurrentTimeText;
     private TextView mAlarmTimeText;
     private Button mStartStopButton;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findAndAssignViews() {
+        mMenuButton = findViewById(R.id.menu_button);
         mCurrentTimeText = findViewById(R.id.current_time_text);
         mAlarmTimeText = findViewById(R.id.alarm_time_text);
         mStartStopButton = findViewById(R.id.start_stop_alarm_button);
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
         animationIn.setDuration(1000);
 
+        mMenuButton.startAnimation(animationIn);
         mCurrentTimeText.startAnimation(animationIn);
         mAlarmTimeText.startAnimation(animationIn);
         mStartStopButton.startAnimation(animationIn);
@@ -125,5 +128,10 @@ public class MainActivity extends AppCompatActivity {
             DialogFragment setAlarmTimeDialog = TimePickerFragment.newInstance(alarmHour, alarmMinute);
             setAlarmTimeDialog.show(getSupportFragmentManager(), "TIME_PICKER_DIALOG");
         }
+    }
+
+    public void showMenu(View view) {
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 }

@@ -2,9 +2,15 @@
     <string name="app_name">SmartAlarm</string>
     <string name="start_alarm">Start</string>
     <string name="stop_alarm">Stop</string>
+    <string name="menu">☰</string>
     <string name="set_alarm_time">Set alarm time</string>
     <string name="alert_dialog_ok">Done</string>
     <string name="preference_file_key">com.sweak.smartalarm.SHARED_PREFERENCES_KEY</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_header">Menu</string>
+    <string name="set_alarm_sound">Set alarm sound</string>
+    <string name="open_setting_dialog">⟩</string>
+    <string name="set_snooze_duration">Set snooze duration</string>
+    <string name="set_snooze_count">Set snooze count</string>
+    <string name="save_qr_code">Save QR Code to gallery</string>
+    <string name="about">About</string>
 </resources>
