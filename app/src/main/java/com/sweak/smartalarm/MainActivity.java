@@ -5,8 +5,11 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import java.util.Calendar;
@@ -14,9 +17,10 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
 
     private Preferences mPreferences;
+    private AlarmSetter mAlarmSetter;
+    private TextClock mCurrentTimeText;
     private TextView mAlarmTimeText;
     private Button mStartStopButton;
-    private AlarmSetter mAlarmSetter;
 
     private int alarmHour;
     private int alarmMinute;
@@ -32,8 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
         restorePreferences();
         findAndAssignViews();
-        setAppropriateAlarmText();
+        prepareCurrentTimeText();
+        mAlarmSetter.setAlarmTime(alarmHour, alarmMinute);
+        setAlarmTimeText(alarmHour, alarmMinute);
         setButtonLabel();
+        startStartupAnimation();
         setTimePickerResultListener();
     }
 
@@ -41,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        mPreferences.setAlarmPending(mAlarmSetter.isAlarmSet(getApplication()));
+        mPreferences.setAlarmPending(AlarmSetter.isAlarmSet(getApplication()));
         if (mPreferences.getAlarmPending()) {
             mPreferences.setAlarmTime(alarmHour, alarmMinute);
         }
@@ -54,23 +61,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findAndAssignViews() {
+        mCurrentTimeText = findViewById(R.id.current_time_text);
         mAlarmTimeText = findViewById(R.id.alarm_time_text);
         mStartStopButton = findViewById(R.id.start_stop_alarm_button);
     }
 
-    private void setAppropriateAlarmText() {
-        if (!isAlarmPending) {
-            Calendar currentDate = Calendar.getInstance();
-            alarmHour = currentDate.get(Calendar.HOUR_OF_DAY);
-            alarmMinute = currentDate.get(Calendar.MINUTE);
-
-            mAlarmTimeText.setClickable(true);
-        }
-        else
-            mAlarmTimeText.setClickable(false);
-
-        mAlarmSetter.setAlarmTime(alarmHour, alarmMinute);
-        setNewAlarmTime(alarmHour, alarmMinute);
+    private void prepareCurrentTimeText() {
+        mCurrentTimeText.setFormat24Hour("HH:mm");
+        mCurrentTimeText.setFormat12Hour("HH:mm");
     }
 
     private void setButtonLabel() {
@@ -82,41 +80,50 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void startStartupAnimation() {
+        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
+        animationIn.setDuration(1000);
+
+        mCurrentTimeText.startAnimation(animationIn);
+        mAlarmTimeText.startAnimation(animationIn);
+        mStartStopButton.startAnimation(animationIn);
+    }
+
     private void setTimePickerResultListener() {
         getSupportFragmentManager().setFragmentResultListener(TimePickerFragment.REQUEST_KEY, this,
                 (requestKey, bundle) -> {
                     int alarmHour = bundle.getInt(TimePickerFragment.ALARM_HOUR_KEY);
                     int alarmMinute = bundle.getInt(TimePickerFragment.ALARM_MINUTE_KEY);
-                    setNewAlarmTime(alarmHour, alarmMinute);
+                    mAlarmSetter.setAlarmTime(alarmHour, alarmMinute);
+                    setAlarmTimeText(alarmHour, alarmMinute);
                 }
         );
     }
 
-    private void setNewAlarmTime(int alarmHour, int alarmMinute) {
+    private void setAlarmTimeText(int alarmHour, int alarmMinute) {
         this.alarmHour = alarmHour;
         this.alarmMinute = alarmMinute;
 
-        mAlarmSetter.setAlarmTime(this.alarmHour, this.alarmMinute);
-
-        mAlarmTimeText.setText(String.format("%02d:%02d", this.alarmHour, this.alarmMinute));
+        mAlarmTimeText.setText(String.format("Alarm at: %02d:%02d", this.alarmHour, this.alarmMinute));
     }
 
     public void startOrStopAlarm(View view) {
         if (!isAlarmPending) {
             mAlarmSetter.schedule(getApplicationContext());
-            mAlarmTimeText.setClickable(false);
-        }
-        else {
+            isAlarmPending = AlarmSetter.isAlarmSet(getApplication());
+
+            setAlarmTimeText(alarmHour, alarmMinute);
+            setButtonLabel();
+        } else {
             Intent intent = new Intent(this, ScanActivity.class);
             startActivity(intent);
         }
-
-        isAlarmPending = mAlarmSetter.isAlarmSet(getApplication());
-        setButtonLabel();
     }
 
     public void showTimePickerDialog(View view) {
-        DialogFragment setAlarmTimeDialog = TimePickerFragment.newInstance(alarmHour, alarmMinute);
-        setAlarmTimeDialog.show(getSupportFragmentManager(), "TIME_PICKER_DIALOG");
+        if (!isAlarmPending) {
+            DialogFragment setAlarmTimeDialog = TimePickerFragment.newInstance(alarmHour, alarmMinute);
+            setAlarmTimeDialog.show(getSupportFragmentManager(), "TIME_PICKER_DIALOG");
+        }
     }
 }
