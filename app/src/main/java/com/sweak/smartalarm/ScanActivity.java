@@ -45,6 +45,7 @@ public class ScanActivity extends AppCompatActivity {
             if (result.getText().equals("StopAlarm")) {
                 AlarmSetter.cancelAlarm(getApplication());
                 mPreferences.setAlarmPending(false);
+                mPreferences.setSnoozeAlarmPending(false);
                 finishAffinity();
             }
         }));

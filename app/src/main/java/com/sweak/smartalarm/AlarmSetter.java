@@ -50,9 +50,8 @@ public class AlarmSetter {
     }
 
     private void setAlarm(AlarmManager alarmManager, PendingIntent alarmPendingIntent) {
-        alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
+        alarmManager.setAlarmClock(
+                new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(), alarmPendingIntent),
                 alarmPendingIntent
         );
     }

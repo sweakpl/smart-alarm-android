@@ -54,7 +54,6 @@ public class TimePickerFragment extends DialogFragment {
         mTimePicker.setMinute(getArguments().getInt(ALARM_MINUTE_KEY));
 
         dialogBuilder.setView(view);
-
         return dialogBuilder.create();
     }
 

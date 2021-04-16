@@ -6,11 +6,17 @@
     android:paddingStart="?dialogPreferredPadding"
     android:paddingEnd="?dialogPreferredPadding">
 
-    <TimePicker
-        android:id="@+id/alarm_time_picker"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:timePickerMode="spinner"/>
+        android:text="@string/creator"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/github"
+        android:textSize="15sp"
+        android:autoLink="web"/>
 
 </LinearLayout>

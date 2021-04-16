@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".App"
@@ -13,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAlarm">
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScanActivity" />
-
         <service
             android:name=".AlarmService"
             android:enabled="true"
@@ -32,6 +34,15 @@
             android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
+
+        <receiver
+            android:name=".SnoozeReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.sweak.smartalarm.ACTION_SNOOZE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

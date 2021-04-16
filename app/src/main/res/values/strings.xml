@@ -5,7 +5,6 @@
     <string name="menu">☰</string>
     <string name="set_alarm_time">Set alarm time</string>
     <string name="alert_dialog_ok">Done</string>
-    <string name="preference_file_key">com.sweak.smartalarm.SHARED_PREFERENCES_KEY</string>
     <string name="menu_header">Menu</string>
     <string name="set_alarm_sound">Set alarm sound</string>
     <string name="open_setting_dialog">⟩</string>
@@ -13,4 +12,7 @@
     <string name="set_snooze_count">Set snooze count</string>
     <string name="save_qr_code">Save QR Code to gallery</string>
     <string name="about">About</string>
+    <string name="snooze">Snooze</string>
+    <string name="creator">Creator: sweak</string>
+    <string name="github">github.com/sweakpl</string>
 </resources>

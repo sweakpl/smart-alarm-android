@@ -5,6 +5,8 @@ import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.transition.TransitionManager;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -86,10 +88,13 @@ public class MainActivity extends AppCompatActivity {
         AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
         animationIn.setDuration(1000);
 
-        mMenuButton.startAnimation(animationIn);
         mCurrentTimeText.startAnimation(animationIn);
         mAlarmTimeText.startAnimation(animationIn);
         mStartStopButton.startAnimation(animationIn);
+        if (!isAlarmPending)
+            mMenuButton.startAnimation(animationIn);
+        else
+            mMenuButton.setVisibility(View.GONE);
     }
 
     private void setTimePickerResultListener() {
@@ -107,7 +112,12 @@ public class MainActivity extends AppCompatActivity {
         this.alarmHour = alarmHour;
         this.alarmMinute = alarmMinute;
 
-        mAlarmTimeText.setText(String.format("Alarm at: %02d:%02d", this.alarmHour, this.alarmMinute));
+        if (!mPreferences.getSnoozeAlarmPending())
+            mAlarmTimeText.setText(
+                    String.format("Alarm at: %02d:%02d", this.alarmHour, this.alarmMinute));
+        else
+            mAlarmTimeText.setText(String.format("Alarm at: %02d:%02d",
+                    mPreferences.getSnoozeAlarmHour(), mPreferences.getSnoozeAlarmMinute()));
     }
 
     public void startOrStopAlarm(View view) {
@@ -117,10 +127,21 @@ public class MainActivity extends AppCompatActivity {
 
             setAlarmTimeText(alarmHour, alarmMinute);
             setButtonLabel();
+            disableMenuButton();
         } else {
             Intent intent = new Intent(this, ScanActivity.class);
             startActivity(intent);
         }
+    }
+
+    private void disableMenuButton() {
+        mMenuButton.setClickable(false);
+
+        AlphaAnimation animationOut = new AlphaAnimation(1.0f, 0.0f);
+        animationOut.setDuration(1000);
+
+        mMenuButton.startAnimation(animationOut);
+        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.GONE), 1000);
     }
 
     public void showTimePickerDialog(View view) {

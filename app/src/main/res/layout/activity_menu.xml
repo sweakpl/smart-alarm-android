@@ -21,10 +21,7 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray_dark"/>
+    <include layout="@layout/line_separator" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,21 +47,10 @@
                     android:text="@string/set_alarm_sound"
                     android:textSize="20sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="16dp"
-                    android:text="@string/open_setting_dialog"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textAlignment="viewEnd" />
+                <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_dark"/>
+            <include layout="@layout/line_separator" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,21 +67,10 @@
                     android:text="@string/set_snooze_duration"
                     android:textSize="20sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="16dp"
-                    android:text="@string/open_setting_dialog"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textAlignment="viewEnd" />
+                <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_dark"/>
+            <include layout="@layout/line_separator" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,28 +87,18 @@
                     android:text="@string/set_snooze_count"
                     android:textSize="20sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="16dp"
-                    android:text="@string/open_setting_dialog"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textAlignment="viewEnd" />
+                <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_dark"/>
+            <include layout="@layout/line_separator" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:onClick="saveCodeToGallery">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,28 +108,18 @@
                     android:text="@string/save_qr_code"
                     android:textSize="20sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="16dp"
-                    android:text="@string/open_setting_dialog"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textAlignment="viewEnd" />
+                <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gray_dark"/>
+            <include layout="@layout/line_separator" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:onClick="showAboutDialog">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -174,15 +129,7 @@
                     android:text="@string/about"
                     android:textSize="20sp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="16dp"
-                    android:text="@string/open_setting_dialog"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:textAlignment="viewEnd" />
+                <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
 
         </LinearLayout>

@@ -6,10 +6,12 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 
 import androidx.annotation.Nullable;
@@ -17,12 +19,14 @@ import androidx.core.app.NotificationCompat;
 
 import java.io.IOException;
 
+import static com.sweak.smartalarm.App.ACTION_SNOOZE;
 import static com.sweak.smartalarm.App.CHANNEL_ID;
 import static com.sweak.smartalarm.App.NOTIFICATION_ID;
 
 public class AlarmService extends Service {
 
     private NotificationManager mNotificationManager;
+    private SnoozeReceiver mSnoozeReceiver;
     private MediaPlayer mMediaPlayer;
     private Notification mNotification;
 
@@ -33,23 +37,35 @@ public class AlarmService extends Service {
         mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         mMediaPlayer = new MediaPlayer();
 
+        registerSnoozeReceiver();
         prepareNotification();
         prepareMediaPlayer();
     }
 
-    private void prepareNotification() {
-        Intent contentIntent = new Intent(this, ScanActivity.class);
+    private void registerSnoozeReceiver() {
+        mSnoozeReceiver = new SnoozeReceiver();
+        registerReceiver(mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
+    }
 
-        PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (this, NOTIFICATION_ID, contentIntent, 0);
+    private void prepareNotification() {
+        Intent scanIntent = new Intent(this, ScanActivity.class);
+        PendingIntent scanPendingIntent = PendingIntent.getActivity
+                (this, NOTIFICATION_ID, scanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent snoozeIntent = new Intent(this, SnoozeReceiver.class);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        PendingIntent snoozePendingIntent =
+                PendingIntent.getBroadcast(this, NOTIFICATION_ID, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
 
         long[] vibrationPattern = {0, 1000, 2000};
 
         mNotification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentIntent(contentPendingIntent)
+                .setContentIntent(scanPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_alarm_on)
+                .addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent)
+                .addAction(R.drawable.ic_alarm_on, getString(R.string.stop_alarm), scanPendingIntent)
                 .setContentTitle("Alarm off!")
                 .setContentText("Time to wake up!")
                 .setLights(Color.GREEN, 1000, 1000)
@@ -75,7 +91,13 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mMediaPlayer.start();
-        mNotificationManager.notify(NOTIFICATION_ID, mNotification);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForeground(NOTIFICATION_ID, mNotification);
+        }
+        else {
+            mNotificationManager.notify(NOTIFICATION_ID, mNotification);
+        }
 
         return START_STICKY;
     }
@@ -85,7 +107,15 @@ public class AlarmService extends Service {
         super.onDestroy();
 
         mMediaPlayer.stop();
-        mNotificationManager.cancel(NOTIFICATION_ID);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+        }
+        else {
+            mNotificationManager.cancel(NOTIFICATION_ID);
+        }
+
+        unregisterReceiver(mSnoozeReceiver);
     }
 
     @Nullable
