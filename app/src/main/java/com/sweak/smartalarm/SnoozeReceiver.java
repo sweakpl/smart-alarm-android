@@ -21,10 +21,8 @@ public class SnoozeReceiver extends BroadcastReceiver {
         AlarmSetter.cancelAlarm(context);
 
         setSnoozePreferences();
-        alarmSetter.setAlarmTime(
-                mPreferences.getSnoozeAlarmHour(), mPreferences.getSnoozeAlarmMinute());
 
-        alarmSetter.schedule(context);
+        alarmSetter.schedule(context, AlarmSetter.SNOOZE_ALARM);
         mPreferences.setSnoozeAlarmPending(true);
     }
 

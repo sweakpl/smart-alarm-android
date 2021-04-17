@@ -90,6 +90,9 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Preferences preferences = new Preferences(getApplication());
+        preferences.setAlarmRinging(true);
+
         mMediaPlayer.start();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -105,6 +108,9 @@ public class AlarmService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+
+        Preferences preferences = new Preferences(getApplication());
+        preferences.setAlarmRinging(false);
 
         mMediaPlayer.stop();
 

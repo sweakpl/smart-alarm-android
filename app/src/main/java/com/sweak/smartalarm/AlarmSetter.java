@@ -14,17 +14,10 @@ public class AlarmSetter {
 
     private Calendar calendar;
 
-    private int alarmHour;
-    private int alarmMinute;
+    public static int REGULAR_ALARM = 0;
+    public static int SNOOZE_ALARM = 1;
 
-    public void setAlarmTime(int alarmHour, int alarmMinute) {
-        this.alarmHour = alarmHour;
-        this.alarmMinute = alarmMinute;
-
-        setCalendarToAlarmTime();
-    }
-
-    private void setCalendarToAlarmTime() {
+    private void setCalendarToAlarmTime(int alarmHour, int alarmMinute) {
         calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, alarmHour);
@@ -37,7 +30,7 @@ public class AlarmSetter {
         }
     }
 
-    public void schedule(Context context) {
+    public void schedule(Context context, int mode) {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
@@ -45,8 +38,15 @@ public class AlarmSetter {
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(
                 context, NOTIFICATION_ID, intent, 0);
 
+        Preferences preferences = new Preferences(context);
+        if (mode == REGULAR_ALARM)
+            setCalendarToAlarmTime(preferences.getAlarmHour(), preferences.getAlarmMinute());
+        else if (mode == SNOOZE_ALARM)
+            setCalendarToAlarmTime(preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
+        preferences.setAlarmPending(true);
+
         setAlarm(alarmManager, alarmPendingIntent);
-        showToastAlarmSet(context);
+        showToastAlarmSet(context, mode);
     }
 
     private void setAlarm(AlarmManager alarmManager, PendingIntent alarmPendingIntent) {
@@ -56,8 +56,17 @@ public class AlarmSetter {
         );
     }
 
-    private void showToastAlarmSet(Context context) {
-        String toastText = String.format("Alarm set for %02d:%02d", alarmHour, alarmMinute);
+    private void showToastAlarmSet(Context context, int mode) {
+        Preferences preferences = new Preferences(context);
+        String toastText = "";
+
+        if (mode == REGULAR_ALARM)
+            toastText = String.format("Alarm set for %02d:%02d",
+                    preferences.getAlarmHour(), preferences.getAlarmMinute());
+        else if (mode == SNOOZE_ALARM)
+            toastText = String.format("Alarm set for %02d:%02d",
+                    preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
+
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
 
@@ -71,11 +80,5 @@ public class AlarmSetter {
                 context, NOTIFICATION_ID, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
         alarmPendingIntent.cancel();
-    }
-
-    public static boolean isAlarmSet(Context context) {
-        Intent notifyIntent = new Intent(context, AlarmReceiver.class);
-        return (PendingIntent.getBroadcast(context, NOTIFICATION_ID,
-                notifyIntent, PendingIntent.FLAG_NO_CREATE) != null);
     }
 }

@@ -11,10 +11,11 @@ import static com.sweak.smartalarm.App.PREFERENCE_FILE_KEY;
 public class Preferences {
 
     private final SharedPreferences mSharedPreferences;
-    private final SharedPreferences.Editor mPreferencesEditor;
+    private SharedPreferences.Editor mPreferencesEditor;
 
-    private final String PREFERENCES_ALARM_SET_KEY = "alarmSet";
-    private final String PREFERENCES_SNOOZE_ALARM_SET_KEY = "snoozeAlarmSet";
+    public final String PREFERENCES_ALARM_SET_KEY = "alarmSet";
+    public final String PREFERENCES_SNOOZE_ALARM_SET_KEY = "snoozeAlarmSet";
+    public final String PREFERENCES_ALARM_RINGING_KEY = "alarmRinging";
     private final String PREFERENCES_ALARM_HOUR_KEY = "alarmHour";
     private final String PREFERENCES_ALARM_MINUTE_KEY = "alarmMinute";
     private final String PREFERENCES_SNOOZE_ALARM_HOUR_KEY = "snoozeAlarmHour";
@@ -23,10 +24,24 @@ public class Preferences {
 
     public Preferences(Context context) {
         mSharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
-        mPreferencesEditor = mSharedPreferences.edit();
+    }
+
+    public static void registerPreferences(Context context,
+                                   SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        SharedPreferences preferences =
+                context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
+        preferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    public static void unregisterPreferences(Context context,
+                                           SharedPreferences.OnSharedPreferenceChangeListener listener) {
+        SharedPreferences preferences =
+                context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
+        preferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
     public void setAlarmPending(boolean value) {
+        mPreferencesEditor = mSharedPreferences.edit();
         mPreferencesEditor.putBoolean(PREFERENCES_ALARM_SET_KEY, value);
         mPreferencesEditor.apply();
     }
@@ -36,6 +51,7 @@ public class Preferences {
     }
 
     public void setSnoozeAlarmPending(boolean value) {
+        mPreferencesEditor = mSharedPreferences.edit();
         mPreferencesEditor.putBoolean(PREFERENCES_SNOOZE_ALARM_SET_KEY, value);
         mPreferencesEditor.apply();
     }
@@ -44,7 +60,18 @@ public class Preferences {
         return mSharedPreferences.getBoolean(PREFERENCES_SNOOZE_ALARM_SET_KEY, false);
     }
 
+    public void setAlarmRinging(boolean value) {
+        mPreferencesEditor = mSharedPreferences.edit();
+        mPreferencesEditor.putBoolean(PREFERENCES_ALARM_RINGING_KEY, value);
+        mPreferencesEditor.apply();
+    }
+
+    public boolean getAlarmRinging() {
+        return mSharedPreferences.getBoolean(PREFERENCES_ALARM_RINGING_KEY, false);
+    }
+
     public void setAlarmTime(int alarmHour, int alarmMinute) {
+        mPreferencesEditor = mSharedPreferences.edit();
         mPreferencesEditor.putInt(PREFERENCES_ALARM_HOUR_KEY, alarmHour);
         mPreferencesEditor.putInt(PREFERENCES_ALARM_MINUTE_KEY, alarmMinute);
         mPreferencesEditor.apply();
@@ -63,6 +90,7 @@ public class Preferences {
     }
 
     public void setSnoozeAlarmTime(int alarmHour, int alarmMinute) {
+        mPreferencesEditor = mSharedPreferences.edit();
         mPreferencesEditor.putInt(PREFERENCES_SNOOZE_ALARM_HOUR_KEY, alarmHour);
         mPreferencesEditor.putInt(PREFERENCES_SNOOZE_ALARM_MINUTE_KEY, alarmMinute);
         mPreferencesEditor.apply();
@@ -81,6 +109,7 @@ public class Preferences {
     }
 
     public void setSnoozeDuration(int snoozeDurationMinutes) {
+        mPreferencesEditor = mSharedPreferences.edit();
         mPreferencesEditor.putInt(PREFERENCES_SNOOZE_DURATION_KEY, snoozeDurationMinutes);
         mPreferencesEditor.apply();
     }
@@ -88,6 +117,4 @@ public class Preferences {
     public int getSnoozeDuration() {
         return mSharedPreferences.getInt(PREFERENCES_SNOOZE_DURATION_KEY, 5);
     }
-
-
 }

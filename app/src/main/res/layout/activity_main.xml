@@ -43,10 +43,21 @@
             android:layout_width="200dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:background="@drawable/custom_start_stop_button"
+            android:background="@drawable/custom_action_button"
             android:onClick="startOrStopAlarm"
             android:text="@string/start_alarm"
             android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/snooze_button"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_margin="10sp"
+            android:background="@drawable/custom_action_button"
+            android:onClick="snoozeAlarm"
+            android:text="@string/snooze"
+            android:textSize="15sp" />
     </LinearLayout>
 
     <Button
