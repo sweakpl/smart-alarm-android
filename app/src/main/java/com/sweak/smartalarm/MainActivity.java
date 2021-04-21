@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
         mAlarmSetter = new AlarmSetter();
 
         registerSnoozeReceiver();
+        restoreSnoozeNumberLeft();
         findAndAssignViews();
         prepareCurrentTimeTextFormat();
         setAlarmTimeText();
@@ -61,26 +62,35 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(mPreferences.PREFERENCES_ALARM_RINGING_KEY)) {
-            setButtonsAppearance();
-            if (mPreferences.getAlarmPending() && mPreferences.getAlarmRinging()) {
-                AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
-                animationIn.setDuration(1000);
-                mSnoozeButton.startAnimation(animationIn);
-            }
+        switch (key) {
+            case Preferences.PREFERENCES_ALARM_RINGING_KEY:
+                setButtonsAppearance();
+                if (mPreferences.getAlarmPending() && mPreferences.getAlarmRinging()) {
+                    AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
+                    animationIn.setDuration(1000);
+                    if (mPreferences.getSnoozeNumberLeft() >= 1)
+                        mSnoozeButton.startAnimation(animationIn);
+                }
+                break;
+            case Preferences.PREFERENCES_SNOOZE_ALARM_SET_KEY:
+                if (mPreferences.getSnoozeAlarmPending())
+                    setAlarmTimeText();
+                break;
+            case Preferences.PREFERENCES_ALARM_SET_KEY:
+                setButtonsAppearance();
+                break;
         }
-        else if (key.equals(mPreferences.PREFERENCES_SNOOZE_ALARM_SET_KEY)) {
-            if (mPreferences.getSnoozeAlarmPending())
-                setAlarmTimeText();
-        }
-        else if (key.equals(mPreferences.PREFERENCES_ALARM_SET_KEY))
-            setButtonsAppearance();
     }
 
     private void registerSnoozeReceiver() {
         mSnoozeReceiver = new SnoozeReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
+    }
+
+    private void restoreSnoozeNumberLeft() {
+        if (!mPreferences.getAlarmPending())
+            mPreferences.setSnoozeNumberLeft(mPreferences.getSnoozeNumber());
     }
 
     private void findAndAssignViews() {
@@ -115,7 +125,7 @@ public class MainActivity extends AppCompatActivity
         else {
             mStartStopButton.setText(R.string.stop_alarm);
             mMenuButton.setVisibility(View.GONE);
-            if (mPreferences.getAlarmRinging()) {
+            if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0) {
                 mSnoozeButton.setVisibility(View.VISIBLE);
                 mSnoozeButton.setClickable(true);
             }
@@ -136,7 +146,7 @@ public class MainActivity extends AppCompatActivity
         mStartStopButton.startAnimation(animationIn);
         if (!mPreferences.getAlarmPending())
             mMenuButton.startAnimation(animationIn);
-        if (mPreferences.getAlarmRinging())
+        if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0)
             mSnoozeButton.startAnimation(animationIn);
     }
 

@@ -7,13 +7,15 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class MenuActivity extends AppCompatActivity
@@ -21,10 +23,83 @@ public class MenuActivity extends AppCompatActivity
 
     private final int WRITE_GALLERY_PERMISSION_REQUEST_CODE = 1;
 
+    private Preferences mPreferences;
+    Spinner mAlarmToneSpinner;
+    Spinner mSnoozeDurationSpinner;
+    Spinner mSnoozeNumberSpinner;
+    ArrayAdapter<CharSequence> mAlarmToneAdapter;
+    ArrayAdapter<CharSequence> mSnoozeDurationAdapter;
+    ArrayAdapter<CharSequence> mSnoozeNumberAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        mPreferences = new Preferences(getApplication());
+        findAndAssignViews();
+        prepareViews();
+        setSpinnerListeners();
+    }
+
+    private void findAndAssignViews() {
+        mAlarmToneSpinner = findViewById(R.id.alarm_tone_spinner);
+        mSnoozeDurationSpinner = findViewById(R.id.snooze_duration_spinner);
+        mSnoozeNumberSpinner = findViewById(R.id.snooze_number_spinner);
+    }
+
+    private void prepareViews() {
+        mAlarmToneAdapter = ArrayAdapter.createFromResource(this,
+                R.array.alarm_tones, android.R.layout.simple_spinner_item);
+        mSnoozeDurationAdapter = ArrayAdapter.createFromResource(this,
+                R.array.snooze_durations, android.R.layout.simple_spinner_item);
+        mSnoozeNumberAdapter = ArrayAdapter.createFromResource(this,
+                R.array.snooze_numbers, android.R.layout.simple_spinner_item);
+
+        mAlarmToneAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSnoozeDurationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSnoozeNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        mAlarmToneSpinner.setAdapter(mAlarmToneAdapter);
+        mSnoozeDurationSpinner.setAdapter(mSnoozeDurationAdapter);
+        mSnoozeNumberSpinner.setAdapter(mSnoozeNumberAdapter);
+
+        mAlarmToneSpinner.setSelection(mPreferences.getAlarmToneId());
+        mSnoozeDurationSpinner.setSelection(mSnoozeDurationAdapter.getPosition(
+                String.valueOf(mPreferences.getSnoozeDuration())));
+        mSnoozeNumberSpinner.setSelection(mSnoozeNumberAdapter.getPosition(
+                String.valueOf(mPreferences.getSnoozeNumber())));
+    }
+
+    private void setSpinnerListeners() {
+        mAlarmToneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPreferences.setAlarmToneId(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        mSnoozeDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mPreferences.setSnoozeDuration(Integer.parseInt(
+                        parent.getItemAtPosition(position).toString()));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+        mSnoozeNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int snoozeNumber = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                mPreferences.setSnoozeNumber(snoozeNumber);
+                mPreferences.setSnoozeNumberLeft(snoozeNumber);
+                mSnoozeDurationSpinner.setEnabled(snoozeNumber != 0);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
     public void showAboutDialog(View view) {

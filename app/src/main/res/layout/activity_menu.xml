@@ -40,14 +40,19 @@
                 android:focusable="true">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="16dp"
                     android:text="@string/set_alarm_sound"
                     android:textSize="20sp"/>
 
-                <include layout="@layout/open_setting_dialog_arrow" />
+                <Spinner
+                    android:id="@+id/alarm_tone_spinner"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp" />
             </LinearLayout>
 
             <include layout="@layout/line_separator" />
@@ -60,14 +65,19 @@
                 android:focusable="true">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="16dp"
                     android:text="@string/set_snooze_duration"
                     android:textSize="20sp"/>
 
-                <include layout="@layout/open_setting_dialog_arrow" />
+                <Spinner
+                    android:id="@+id/snooze_duration_spinner"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp" />
             </LinearLayout>
 
             <include layout="@layout/line_separator" />
@@ -80,14 +90,19 @@
                 android:focusable="true">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="16dp"
-                    android:text="@string/set_snooze_count"
+                    android:text="@string/set_snooze_number"
                     android:textSize="20sp"/>
 
-                <include layout="@layout/open_setting_dialog_arrow" />
+                <Spinner
+                    android:id="@+id/snooze_number_spinner"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp" />
             </LinearLayout>
 
             <include layout="@layout/line_separator" />
@@ -101,7 +116,7 @@
                 android:onClick="saveCodeToGallery">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="16dp"
@@ -122,7 +137,7 @@
                 android:onClick="showAboutDialog">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_margin="16dp"

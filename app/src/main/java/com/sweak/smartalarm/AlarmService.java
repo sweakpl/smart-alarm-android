@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 
@@ -25,6 +24,7 @@ import static com.sweak.smartalarm.App.NOTIFICATION_ID;
 
 public class AlarmService extends Service {
 
+    private Preferences mPreferences;
     private NotificationManager mNotificationManager;
     private SnoozeReceiver mSnoozeReceiver;
     private MediaPlayer mMediaPlayer;
@@ -34,9 +34,11 @@ public class AlarmService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        mPreferences = new Preferences(getApplication());
         mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
         mMediaPlayer = new MediaPlayer();
 
+        mPreferences.setSnoozeAlarmPending(false);
         registerSnoozeReceiver();
         prepareNotification();
         prepareMediaPlayer();
@@ -52,33 +54,35 @@ public class AlarmService extends Service {
         PendingIntent scanPendingIntent = PendingIntent.getActivity
                 (this, NOTIFICATION_ID, scanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        long[] vibrationPattern = {0, 1000, 2000};
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentIntent(scanPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)
+                .setSmallIcon(R.drawable.ic_alarm_on)
+                .addAction(R.drawable.ic_alarm_on, getString(R.string.stop_alarm), scanPendingIntent)
+                .setContentTitle("Alarm off!")
+                .setContentText("Time to wake up!")
+                .setLights(Color.GREEN, 1000, 1000)
+                .setVibrate(vibrationPattern);
+
         Intent snoozeIntent = new Intent(this, SnoozeReceiver.class);
         snoozeIntent.setAction(ACTION_SNOOZE);
         PendingIntent snoozePendingIntent =
                 PendingIntent.getBroadcast(this, NOTIFICATION_ID, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        long[] vibrationPattern = {0, 1000, 2000};
+        if (mPreferences.getSnoozeNumberLeft() != 0)
+            builder.addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent);
 
-        mNotification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentIntent(scanPendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setOngoing(true)
-                .setSmallIcon(R.drawable.ic_alarm_on)
-                .addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent)
-                .addAction(R.drawable.ic_alarm_on, getString(R.string.stop_alarm), scanPendingIntent)
-                .setContentTitle("Alarm off!")
-                .setContentText("Time to wake up!")
-                .setLights(Color.GREEN, 1000, 1000)
-                .setVibrate(vibrationPattern)
-                .build();
-
+        mNotification = builder.build();
         mNotification.flags |= Notification.FLAG_INSISTENT;
     }
 
     private void prepareMediaPlayer() {
         try {
             mMediaPlayer.setDataSource(this,
-                    Uri.parse("android.resource://com.sweak.smartalarm/raw/gentle_guitar"));
+                    AlarmToneManager.getAlarmToneUri(mPreferences.getAlarmToneId()));
             mMediaPlayer.setAudioAttributes(
                     new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
             mMediaPlayer.setLooping(true);
@@ -90,8 +94,7 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Preferences preferences = new Preferences(getApplication());
-        preferences.setAlarmRinging(true);
+        mPreferences.setAlarmRinging(true);
 
         mMediaPlayer.start();
 
@@ -109,8 +112,7 @@ public class AlarmService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        Preferences preferences = new Preferences(getApplication());
-        preferences.setAlarmRinging(false);
+        mPreferences.setAlarmRinging(false);
 
         mMediaPlayer.stop();
 

@@ -3,8 +3,6 @@ package com.sweak.smartalarm;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 
 public class App extends Application {

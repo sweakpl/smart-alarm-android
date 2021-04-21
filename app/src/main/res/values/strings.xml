@@ -6,13 +6,35 @@
     <string name="set_alarm_time">Set alarm time</string>
     <string name="alert_dialog_ok">Done</string>
     <string name="menu_header">Menu</string>
-    <string name="set_alarm_sound">Set alarm sound</string>
+    <string name="set_alarm_sound">Alarm sound</string>
     <string name="open_setting_dialog">⟩</string>
-    <string name="set_snooze_duration">Set snooze duration</string>
-    <string name="set_snooze_count">Set snooze count</string>
+    <string name="set_snooze_duration">Snooze duration</string>
+    <string name="set_snooze_number">Snooze number</string>
     <string name="save_qr_code">Save QR Code to gallery</string>
     <string name="about">About</string>
     <string name="snooze">Snooze</string>
     <string name="creator">Creator: sweak</string>
     <string name="github">github.com/sweakpl</string>
+
+    <string-array name="alarm_tones">
+        <item>Default System</item>
+        <item>Gentle Guitar</item>
+        <item>Sunny Day</item>
+        <item>Alarm Clock</item>
+        <item>Analog Watch</item>
+    </string-array>
+
+    <string-array name="snooze_durations">
+        <item>10</item>
+        <item>5</item>
+        <item>3</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="snooze_numbers">
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+        <item>0</item>
+    </string-array>
 </resources>
