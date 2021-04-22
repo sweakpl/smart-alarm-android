@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         mPreferences = new Preferences(getApplication());
         mAlarmSetter = new AlarmSetter();
 
-        registerReceivers();
+        registerSnoozeReceiver();
         restoreSnoozeNumberLeft();
         findAndAssignViews();
         prepareCurrentTimeTextFormat();
@@ -58,9 +58,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.unregisterReceiver(mSnoozeReceiver);
-        broadcastManager.unregisterReceiver(mShutdownReceiver);
+        this.unregisterReceiver(mShutdownReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
         Preferences.unregisterPreferences(this, this);
     }
 
@@ -86,16 +85,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void registerReceivers() {
+    private void registerSnoozeReceiver() {
         mSnoozeReceiver = new SnoozeReceiver();
         mShutdownReceiver = new ShutdownReceiver();
 
-        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
-        broadcastManager.registerReceiver(
+        this.registerReceiver(mShutdownReceiver, new IntentFilter(ACTION_SHUTDOWN));
+        LocalBroadcastManager.getInstance(this).registerReceiver(
                 mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
-        broadcastManager.registerReceiver(
-                mSnoozeReceiver, new IntentFilter(ACTION_SHUTDOWN));
-
     }
 
     private void restoreSnoozeNumberLeft() {

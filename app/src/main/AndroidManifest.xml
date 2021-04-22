@@ -24,7 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MenuActivity" />
         <activity android:name=".ScanActivity" />
 
@@ -36,8 +35,7 @@
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="false"/>
-
+            android:exported="false" />
         <receiver
             android:name=".SnoozeReceiver"
             android:enabled="true"
@@ -46,7 +44,6 @@
                 <action android:name="com.sweak.smartalarm.ACTION_SNOOZE" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".ShutdownReceiver"
             android:enabled="true"
@@ -55,7 +52,6 @@
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
