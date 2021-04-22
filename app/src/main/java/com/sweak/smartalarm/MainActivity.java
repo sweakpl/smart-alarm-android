@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import static android.content.Intent.ACTION_SHUTDOWN;
 import static com.sweak.smartalarm.App.ACTION_SNOOZE;
 
 public class MainActivity extends AppCompatActivity
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity
     private Preferences mPreferences;
     private AlarmSetter mAlarmSetter;
     private SnoozeReceiver mSnoozeReceiver;
+    private ShutdownReceiver mShutdownReceiver;
     private Button mMenuButton;
     private TextClock mCurrentTimeText;
     private TextView mAlarmTimeText;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         mPreferences = new Preferences(getApplication());
         mAlarmSetter = new AlarmSetter();
 
-        registerSnoozeReceiver();
+        registerReceivers();
         restoreSnoozeNumberLeft();
         findAndAssignViews();
         prepareCurrentTimeTextFormat();
@@ -56,8 +58,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+        broadcastManager.unregisterReceiver(mSnoozeReceiver);
+        broadcastManager.unregisterReceiver(mShutdownReceiver);
         Preferences.unregisterPreferences(this, this);
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
     }
 
     @Override
@@ -82,10 +86,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void registerSnoozeReceiver() {
+    private void registerReceivers() {
         mSnoozeReceiver = new SnoozeReceiver();
-        LocalBroadcastManager.getInstance(this).registerReceiver(
+        mShutdownReceiver = new ShutdownReceiver();
+
+        LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+        broadcastManager.registerReceiver(
                 mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
+        broadcastManager.registerReceiver(
+                mSnoozeReceiver, new IntentFilter(ACTION_SHUTDOWN));
+
     }
 
     private void restoreSnoozeNumberLeft() {

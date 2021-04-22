@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
@@ -15,7 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAlarm">
-        <activity android:name=".MenuActivity" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -24,7 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".MenuActivity" />
         <activity android:name=".ScanActivity" />
+
         <service
             android:name=".AlarmService"
             android:enabled="true"
@@ -33,7 +36,7 @@
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <receiver
             android:name=".SnoozeReceiver"
@@ -43,6 +46,16 @@
                 <action android:name="com.sweak.smartalarm.ACTION_SNOOZE" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".ShutdownReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
