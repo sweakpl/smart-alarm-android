@@ -29,6 +29,7 @@ public class App extends Application {
             notificationChannel.enableLights(true);
             notificationChannel.setLightColor(Color.GREEN);
             notificationChannel.enableVibration(true);
+            notificationChannel.setSound(null, null);
             notificationManager.createNotificationChannel(notificationChannel);
         }
     }

@@ -6,23 +6,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.PowerManager;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        wakeUpTheScreen(context);
         startAlarmService(context);
-    }
-
-    private void wakeUpTheScreen(Context context) {
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = powerManager.isInteractive();
-        if (!isScreenOn) {
-            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(
-                    PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
-                    "App:AlarmReceiver");
-            wakeLock.acquire(10000);
-        }
     }
 
     private void startAlarmService(Context context) {

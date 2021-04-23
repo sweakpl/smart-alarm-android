@@ -12,9 +12,11 @@ import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.PowerManager;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
 
@@ -46,7 +48,8 @@ public class AlarmService extends Service {
 
     private void registerSnoozeReceiver() {
         mSnoozeReceiver = new SnoozeReceiver();
-        registerReceiver(mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+                mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
     }
 
     private void prepareNotification() {
@@ -67,13 +70,15 @@ public class AlarmService extends Service {
                 .setLights(Color.GREEN, 1000, 1000)
                 .setVibrate(vibrationPattern);
 
-        Intent snoozeIntent = new Intent(this, SnoozeReceiver.class);
-        snoozeIntent.setAction(ACTION_SNOOZE);
-        PendingIntent snoozePendingIntent =
-                PendingIntent.getBroadcast(this, NOTIFICATION_ID, snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
+        if (mPreferences.getSnoozeNumberLeft() != 0) {
+            Intent snoozeIntent = new Intent(this, SnoozeReceiver.class);
+            snoozeIntent.setAction(ACTION_SNOOZE);
+            PendingIntent snoozePendingIntent =
+                    PendingIntent.getBroadcast(this, NOTIFICATION_ID,
+                            snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
 
-        if (mPreferences.getSnoozeNumberLeft() != 0)
             builder.addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent);
+        }
 
         mNotification = builder.build();
         mNotification.flags |= Notification.FLAG_INSISTENT;
@@ -92,6 +97,17 @@ public class AlarmService extends Service {
         }
     }
 
+    private void wakeUpTheScreen(Context context) {
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager.isInteractive();
+        if (!isScreenOn) {
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(
+                    PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    "App:AlarmReceiver");
+            wakeLock.acquire(10000);
+        }
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPreferences.setAlarmRinging(true);
@@ -104,6 +120,8 @@ public class AlarmService extends Service {
         else {
             mNotificationManager.notify(NOTIFICATION_ID, mNotification);
         }
+
+        wakeUpTheScreen(getApplication());
 
         return START_STICKY;
     }
@@ -123,7 +141,7 @@ public class AlarmService extends Service {
             mNotificationManager.cancel(NOTIFICATION_ID);
         }
 
-        unregisterReceiver(mSnoozeReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
     }
 
     @Nullable

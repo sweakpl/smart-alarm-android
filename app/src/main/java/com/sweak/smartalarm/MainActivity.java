@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         mPreferences = new Preferences(getApplication());
         mAlarmSetter = new AlarmSetter();
 
-        registerSnoozeReceiver();
+        registerReceivers();
         restoreSnoozeNumberLeft();
         findAndAssignViews();
         prepareCurrentTimeTextFormat();
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void registerSnoozeReceiver() {
+    private void registerReceivers() {
         mSnoozeReceiver = new SnoozeReceiver();
         mShutdownReceiver = new ShutdownReceiver();
 
