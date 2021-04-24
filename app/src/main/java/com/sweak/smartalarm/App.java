@@ -8,8 +8,9 @@ import android.graphics.Color;
 public class App extends Application {
     public static final String PREFERENCE_FILE_KEY = BuildConfig.APPLICATION_ID + ".SHARED_PREFERENCES_KEY";
     public static final String ACTION_SNOOZE = BuildConfig.APPLICATION_ID + ".ACTION_SNOOZE";
-    public static final int NOTIFICATION_ID = 1;
+    public static final String DEFAULT_DISMISS_ALARM_CODE = "StopAlarm";
     public static final String CHANNEL_ID = "SMART_ALARM_SERVICE_CHANNEL";
+    public static final int NOTIFICATION_ID = 1;
 
     @Override
     public void onCreate() {

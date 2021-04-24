@@ -134,6 +134,48 @@
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="addCustomQRDismissCode">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="16dp"
+                    android:text="@string/scan_custom_qr_code"
+                    android:textSize="20sp"/>
+
+                <include layout="@layout/open_setting_dialog_arrow" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick="resetQRDismissCode">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="16dp"
+                    android:text="@string/reset_qr_code"
+                    android:textSize="20sp"/>
+
+                <include layout="@layout/open_setting_dialog_arrow" />
+            </LinearLayout>
+
+            <include layout="@layout/line_separator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:onClick="showAboutDialog">
 
                 <TextView

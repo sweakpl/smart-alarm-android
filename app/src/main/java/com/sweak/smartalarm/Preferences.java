@@ -16,6 +16,7 @@ public class Preferences {
     public static final String PREFERENCES_ALARM_SET_KEY = "alarmSet";
     public static final String PREFERENCES_SNOOZE_ALARM_SET_KEY = "snoozeAlarmSet";
     public static final String PREFERENCES_ALARM_RINGING_KEY = "alarmRinging";
+    private static final String PREFERENCES_DISMISS_ALARM_CODE_KEY = "dismissAlarmCode";
     private static final String PREFERENCES_ALARM_HOUR_KEY = "alarmHour";
     private static final String PREFERENCES_ALARM_MINUTE_KEY = "alarmMinute";
     private static final String PREFERENCES_SNOOZE_ALARM_HOUR_KEY = "snoozeAlarmHour";
@@ -71,6 +72,17 @@ public class Preferences {
 
     public boolean getAlarmRinging() {
         return mSharedPreferences.getBoolean(PREFERENCES_ALARM_RINGING_KEY, false);
+    }
+
+    public void setDismissAlarmCode(String code) {
+        mPreferencesEditor = mSharedPreferences.edit();
+        mPreferencesEditor.putString(PREFERENCES_DISMISS_ALARM_CODE_KEY, code);
+        mPreferencesEditor.apply();
+    }
+
+    public String getDismissAlarmCode() {
+        return mSharedPreferences.getString(PREFERENCES_DISMISS_ALARM_CODE_KEY,
+                App.DEFAULT_DISMISS_ALARM_CODE);
     }
 
     public void setAlarmTime(int alarmHour, int alarmMinute) {

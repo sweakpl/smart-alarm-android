@@ -8,6 +8,7 @@ import androidx.fragment.app.DialogFragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -123,10 +124,25 @@ public class MenuActivity extends AppCompatActivity
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    public void addCustomQRDismissCode(View view) {
+        Intent addCodeIntent = new Intent(this, ScanActivity.class);
+        addCodeIntent.putExtra(this.getPackageName() + ScanActivity.SCAN_MODE_KEY,
+                ScanActivity.SET_DISMISS_CODE_MODE);
+        startActivity(addCodeIntent);
+    }
+
+    public void resetQRDismissCode(View view) {
+        mPreferences.setDismissAlarmCode(App.DEFAULT_DISMISS_ALARM_CODE);
+        Toast.makeText(this,
+                "Default code to dismiss alarm added: \"" + App.DEFAULT_DISMISS_ALARM_CODE + "\"",
+                Toast.LENGTH_LONG)
+                .show();
+    }
+
     private void insertCodeImage() {
         MediaStore.Images.Media.insertImage(
                 getContentResolver(),
-                BitmapFactory.decodeResource(   getResources(), R.drawable.qr_code),
+                BitmapFactory.decodeResource(getResources(), R.drawable.qr_code),
                 "SmartAlarm QR Code",
                 "Code used to turn off the SmartAlarm alarm");
 

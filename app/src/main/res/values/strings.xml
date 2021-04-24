@@ -10,11 +10,13 @@
     <string name="open_setting_dialog">⟩</string>
     <string name="set_snooze_duration">Snooze duration</string>
     <string name="set_snooze_number">Snooze number</string>
-    <string name="save_qr_code">Save QR Code to gallery</string>
+    <string name="save_qr_code">Save default QR Code to gallery</string>
     <string name="about">About</string>
     <string name="snooze">Snooze</string>
     <string name="creator">Creator: sweak</string>
     <string name="github">github.com/sweakpl</string>
+    <string name="scan_custom_qr_code">Scan to add custom QR Code</string>
+    <string name="reset_qr_code">Reset QR Code to default</string>
 
     <string-array name="alarm_tones">
         <item>Default System</item>

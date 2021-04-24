@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.unregisterReceiver(mShutdownReceiver);
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
         Preferences.unregisterPreferences(this, this);
     }
@@ -182,6 +181,8 @@ public class MainActivity extends AppCompatActivity
             mAlarmSetter.schedule(getApplicationContext(), AlarmSetter.REGULAR_ALARM);
         } else {
             Intent intent = new Intent(this, ScanActivity.class);
+            intent.putExtra(this.getPackageName() + ScanActivity.SCAN_MODE_KEY,
+                    ScanActivity.DISMISS_ALARM_MODE);
             startActivity(intent);
         }
     }
