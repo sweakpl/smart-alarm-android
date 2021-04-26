@@ -68,10 +68,7 @@ public class MainActivity extends AppCompatActivity
             case Preferences.PREFERENCES_ALARM_RINGING_KEY:
                 setButtonsAppearance();
                 if (mPreferences.getAlarmPending() && mPreferences.getAlarmRinging()) {
-                    AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
-                    animationIn.setDuration(1000);
-                    if (mPreferences.getSnoozeNumberLeft() >= 1)
-                        mSnoozeButton.startAnimation(animationIn);
+                    enableSnoozeButton();
                 }
                 break;
             case Preferences.PREFERENCES_SNOOZE_ALARM_SET_KEY:
@@ -126,6 +123,7 @@ public class MainActivity extends AppCompatActivity
         if (!mPreferences.getAlarmPending()) {
             mStartStopButton.setText(R.string.start_alarm);
             mSnoozeButton.setClickable(false);
+            enableMenuButton();
         }
         else {
             mStartStopButton.setText(R.string.stop_alarm);
@@ -140,6 +138,13 @@ public class MainActivity extends AppCompatActivity
                     disableMenuButton();
             }
         }
+    }
+
+    public void enableSnoozeButton() {
+        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
+        animationIn.setDuration(1000);
+        if (mPreferences.getSnoozeNumberLeft() >= 1)
+            mSnoozeButton.startAnimation(animationIn);
     }
 
     private void startStartupAnimation() {
@@ -176,13 +181,24 @@ public class MainActivity extends AppCompatActivity
         new Handler().postDelayed(() -> mMenuButton.setVisibility(View.GONE), 1000);
     }
 
+    private void enableMenuButton() {
+        mMenuButton.setClickable(true);
+
+        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
+        animationIn.setDuration(1000);
+
+        mMenuButton.startAnimation(animationIn);
+        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.VISIBLE), 1000);
+    }
+
     public void startOrStopAlarm(View view) {
         if (!mPreferences.getAlarmPending()) {
-            mAlarmSetter.schedule(getApplicationContext(), AlarmSetter.REGULAR_ALARM);
+            mAlarmSetter.schedule(getApplicationContext(), AlarmSetter.REGULAR_ALARM,
+                    findViewById(R.id.main_layout));
         } else {
             Intent intent = new Intent(this, ScanActivity.class);
             intent.putExtra(this.getPackageName() + ScanActivity.SCAN_MODE_KEY,
-                    ScanActivity.DISMISS_ALARM_MODE);
+                    ScanActivity.MODE_DISMISS_ALARM);
             startActivity(intent);
         }
     }

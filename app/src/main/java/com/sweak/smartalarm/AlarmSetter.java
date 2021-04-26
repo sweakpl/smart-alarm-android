@@ -4,7 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
 
@@ -30,7 +33,7 @@ public class AlarmSetter {
         }
     }
 
-    public void schedule(Context context, int mode) {
+    public void schedule(Context context, int mode, View snackbarView) {
         AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, AlarmReceiver.class);
@@ -39,14 +42,22 @@ public class AlarmSetter {
                 context, NOTIFICATION_ID, intent, 0);
 
         Preferences preferences = new Preferences(context);
-        if (mode == REGULAR_ALARM)
-            setCalendarToAlarmTime(preferences.getAlarmHour(), preferences.getAlarmMinute());
-        else if (mode == SNOOZE_ALARM)
-            setCalendarToAlarmTime(preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
         preferences.setAlarmPending(true);
 
+        if (mode == REGULAR_ALARM) {
+            setCalendarToAlarmTime(preferences.getAlarmHour(), preferences.getAlarmMinute());
+            showSnackbarAlarmSet(context, snackbarView);
+        }
+        else if (mode == SNOOZE_ALARM) {
+            setCalendarToAlarmTime(preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
+            showToastSnoozeSet(context);
+        }
+
         setAlarm(alarmManager, alarmPendingIntent);
-        showToastAlarmSet(context, mode);
+    }
+
+    public void schedule(Context context, int mode) {
+        schedule(context, mode, null);
     }
 
     private void setAlarm(AlarmManager alarmManager, PendingIntent alarmPendingIntent) {
@@ -56,18 +67,26 @@ public class AlarmSetter {
         );
     }
 
-    private void showToastAlarmSet(Context context, int mode) {
+    private void showSnackbarAlarmSet(Context context, View snackbarView) {
         Preferences preferences = new Preferences(context);
-        String toastText = "";
-
-        if (mode == REGULAR_ALARM)
-            toastText = String.format("Alarm set for %02d:%02d",
+        String snackbarText = String.format("Alarm set for %02d:%02d",
                     preferences.getAlarmHour(), preferences.getAlarmMinute());
-        else if (mode == SNOOZE_ALARM)
-            toastText = String.format("Alarm set for %02d:%02d",
-                    preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
 
-        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+        Snackbar alarmSetSnackbar = Snackbar.make(snackbarView, snackbarText, Snackbar.LENGTH_LONG);
+
+        alarmSetSnackbar.setAction("Unset", v -> {
+            cancelAlarm(context);
+        });
+
+        alarmSetSnackbar.show();
+    }
+
+    private void showToastSnoozeSet(Context context) {
+        Preferences preferences = new Preferences(context);
+        String toastText =  String.format("Snooze till %02d:%02d",
+                preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
+
+        Toast.makeText(context, toastText, Toast.LENGTH_LONG);
     }
 
     public static void cancelAlarm(Context context) {
@@ -80,5 +99,9 @@ public class AlarmSetter {
                 context, NOTIFICATION_ID, intent, 0);
         alarmManager.cancel(alarmPendingIntent);
         alarmPendingIntent.cancel();
+
+        Preferences preferences = new Preferences(context);
+        preferences.setAlarmPending(false);
+        preferences.setSnoozeAlarmPending(false);
     }
 }

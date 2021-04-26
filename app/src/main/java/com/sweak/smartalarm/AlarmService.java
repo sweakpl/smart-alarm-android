@@ -53,35 +53,38 @@ public class AlarmService extends Service {
     }
 
     private void prepareNotification() {
-        Intent scanIntent = new Intent(this, ScanActivity.class);
-        PendingIntent scanPendingIntent = PendingIntent.getActivity
-                (this, NOTIFICATION_ID, scanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
         long[] vibrationPattern = {0, 1000, 2000};
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentIntent(scanPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_alarm_on)
-                .addAction(R.drawable.ic_alarm_on, getString(R.string.stop_alarm), scanPendingIntent)
                 .setContentTitle("Alarm off!")
                 .setContentText("Time to wake up!")
                 .setLights(Color.GREEN, 1000, 1000)
                 .setVibrate(vibrationPattern);
 
-        if (mPreferences.getSnoozeNumberLeft() != 0) {
-            Intent snoozeIntent = new Intent(this, SnoozeReceiver.class);
-            snoozeIntent.setAction(ACTION_SNOOZE);
-            PendingIntent snoozePendingIntent =
-                    PendingIntent.getBroadcast(this, NOTIFICATION_ID,
-                            snoozeIntent, PendingIntent.FLAG_ONE_SHOT);
-
-            builder.addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent);
-        }
+        setNotificationIntents(builder);
 
         mNotification = builder.build();
         mNotification.flags |= Notification.FLAG_INSISTENT;
+    }
+
+    private void setNotificationIntents(NotificationCompat.Builder builder) {
+        Intent scanIntent = new Intent(this, ScanActivity.class);
+        PendingIntent scanPendingIntent = PendingIntent.getActivity
+                (this, NOTIFICATION_ID, scanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent snoozeIntent = new Intent(this, SnoozeReceiver.class);
+        snoozeIntent.setAction(ACTION_SNOOZE);
+        PendingIntent snoozePendingIntent =
+                PendingIntent.getBroadcast(this, NOTIFICATION_ID,
+                        snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentIntent(scanPendingIntent);
+        builder.addAction(R.drawable.ic_alarm_on, getString(R.string.stop_alarm), scanPendingIntent);
+        if (mPreferences.getSnoozeNumberLeft() != 0)
+            builder.addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent);
     }
 
     private void prepareMediaPlayer() {

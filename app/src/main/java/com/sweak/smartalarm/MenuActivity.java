@@ -127,7 +127,7 @@ public class MenuActivity extends AppCompatActivity
     public void addCustomQRDismissCode(View view) {
         Intent addCodeIntent = new Intent(this, ScanActivity.class);
         addCodeIntent.putExtra(this.getPackageName() + ScanActivity.SCAN_MODE_KEY,
-                ScanActivity.SET_DISMISS_CODE_MODE);
+                ScanActivity.MODE_SET_DISMISS_CODE);
         startActivity(addCodeIntent);
     }
 
@@ -161,11 +161,11 @@ public class MenuActivity extends AppCompatActivity
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 insertCodeImage();
             }
-        }
-        else {
-            Toast.makeText(this,
-                    "Can't write to gallery - QR code not saved!",
-                    Toast.LENGTH_LONG).show();
+            else {
+                Toast.makeText(this,
+                        "Can't write to gallery - QR code not saved!",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

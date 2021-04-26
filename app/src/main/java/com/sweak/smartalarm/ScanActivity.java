@@ -13,12 +13,15 @@ import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.google.zxing.BarcodeFormat;
+
+import java.util.Collections;
 
 public class ScanActivity extends AppCompatActivity {
 
     public static final String SCAN_MODE_KEY = "ScanMode";
-    public static final int DISMISS_ALARM_MODE = 0;
-    public static final int SET_DISMISS_CODE_MODE = 1;
+    public static final int MODE_DISMISS_ALARM = 0;
+    public static final int MODE_SET_DISMISS_CODE = 1;
 
     private int mScanMode;
     private CodeScanner mCodeScanner;
@@ -48,26 +51,25 @@ public class ScanActivity extends AppCompatActivity {
     private void retrieveScanMode() {
         Intent intent = getIntent();
         mScanMode = intent.getIntExtra(getApplication().getPackageName() + SCAN_MODE_KEY,
-                DISMISS_ALARM_MODE);
+                MODE_DISMISS_ALARM);
     }
 
     private void startScanning() {
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
+        setScanFormatToQR();
 
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
-            if (mScanMode == DISMISS_ALARM_MODE) {
+            if (mScanMode == MODE_DISMISS_ALARM) {
                 if (result.getText().equals(mPreferences.getDismissAlarmCode())) {
                     AlarmSetter.cancelAlarm(getApplication());
-                    mPreferences.setAlarmPending(false);
-                    mPreferences.setSnoozeAlarmPending(false);
                     finishAffinity();
                 }
                 else {
                     showWrongCodeToast(result.getText());
                 }
             }
-            else if (mScanMode == SET_DISMISS_CODE_MODE) {
+            else if (mScanMode == MODE_SET_DISMISS_CODE) {
                 mPreferences.setDismissAlarmCode(result.getText());
                 showCodeAdditionToast();
                 finish();
@@ -75,6 +77,10 @@ public class ScanActivity extends AppCompatActivity {
         }));
 
         scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
+    }
+
+    private void setScanFormatToQR() {
+        mCodeScanner.setFormats(Collections.singletonList(BarcodeFormat.QR_CODE));
     }
 
     private void showWrongCodeToast(String code) {

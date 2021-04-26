@@ -17,6 +17,7 @@
     <string name="github">github.com/sweakpl</string>
     <string name="scan_custom_qr_code">Scan to add custom QR Code</string>
     <string name="reset_qr_code">Reset QR Code to default</string>
+    <string name="notification_action">Notification tap action</string>
 
     <string-array name="alarm_tones">
         <item>Default System</item>
