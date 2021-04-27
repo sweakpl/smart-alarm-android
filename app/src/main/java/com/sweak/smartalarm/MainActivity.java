@@ -114,8 +114,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setAlarmTimeText() {
         if (!mPreferences.getSnoozeAlarmPending())
-            mAlarmTimeText.setText(
-                    String.format(getString(R.string.alarm_at) + " %02d:%02d",
+            mAlarmTimeText.setText(String.format(getString(R.string.alarm_at) + " %02d:%02d",
                             mPreferences.getAlarmHour(), mPreferences.getAlarmMinute()));
         else
             mAlarmTimeText.setText(String.format(getString(R.string.alarm_at) + " %02d:%02d",
