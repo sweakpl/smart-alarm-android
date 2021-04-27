@@ -6,6 +6,8 @@ import android.content.Intent;
 
 import java.util.Calendar;
 
+import static com.sweak.smartalarm.AlarmSetter.SNOOZE_ALARM;
+
 public class SnoozeReceiver extends BroadcastReceiver {
 
     Preferences mPreferences;
@@ -19,9 +21,9 @@ public class SnoozeReceiver extends BroadcastReceiver {
 
         setSnoozePreferences();
 
-        AlarmSetter.cancelAlarm(context);
+        AlarmSetter.cancelAlarm(context, SNOOZE_ALARM);
 
-        alarmSetter.schedule(context, AlarmSetter.SNOOZE_ALARM);
+        alarmSetter.schedule(context, SNOOZE_ALARM);
 
         if (mPreferences.getSnoozeNumberLeft() != 0)
             mPreferences.setSnoozeNumberLeft(mPreferences.getSnoozeNumberLeft() - 1);

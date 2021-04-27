@@ -134,7 +134,7 @@ public class MenuActivity extends AppCompatActivity
     public void resetQRDismissCode(View view) {
         mPreferences.setDismissAlarmCode(App.DEFAULT_DISMISS_ALARM_CODE);
         Toast.makeText(this,
-                "Default code to dismiss alarm added: \"" + App.DEFAULT_DISMISS_ALARM_CODE + "\"",
+                 getString(R.string.default_code_added) + " \"" + App.DEFAULT_DISMISS_ALARM_CODE + "\"",
                 Toast.LENGTH_LONG)
                 .show();
     }
@@ -147,7 +147,7 @@ public class MenuActivity extends AppCompatActivity
                 "Code used to turn off the SmartAlarm alarm");
 
         Toast.makeText(this,
-                "QR code successfully added to Your gallery, now go and put it somewhere!",
+                getString(R.string.code_added_to_gallery),
                 Toast.LENGTH_LONG).show();
     }
 
@@ -163,7 +163,7 @@ public class MenuActivity extends AppCompatActivity
             }
             else {
                 Toast.makeText(this,
-                        "Can't write to gallery - QR code not saved!",
+                        getString(R.string.code_not_added_to_gallery),
                         Toast.LENGTH_LONG).show();
             }
         }

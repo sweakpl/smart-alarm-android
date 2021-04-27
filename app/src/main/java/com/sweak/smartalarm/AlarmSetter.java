@@ -69,13 +69,13 @@ public class AlarmSetter {
 
     private void showSnackbarAlarmSet(Context context, View snackbarView) {
         Preferences preferences = new Preferences(context);
-        String snackbarText = String.format("Alarm set for %02d:%02d",
+        String snackbarText = String.format(context.getString(R.string.alarm_at) + " %02d:%02d",
                     preferences.getAlarmHour(), preferences.getAlarmMinute());
 
         Snackbar alarmSetSnackbar = Snackbar.make(snackbarView, snackbarText, Snackbar.LENGTH_LONG);
 
         alarmSetSnackbar.setAction("Unset", v -> {
-            cancelAlarm(context);
+            cancelAlarm(context, REGULAR_ALARM);
         });
 
         alarmSetSnackbar.show();
@@ -83,13 +83,13 @@ public class AlarmSetter {
 
     private void showToastSnoozeSet(Context context) {
         Preferences preferences = new Preferences(context);
-        String toastText =  String.format("Snooze till %02d:%02d",
+        String toastText =  String.format(context.getString(R.string.alarm_at) + " %02d:%02d",
                 preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
 
-        Toast.makeText(context, toastText, Toast.LENGTH_LONG);
+        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
 
-    public static void cancelAlarm(Context context) {
+    public static void cancelAlarm(Context context, int mode) {
         Intent intentService = new Intent(context, AlarmService.class);
         context.stopService(intentService);
 
@@ -101,7 +101,11 @@ public class AlarmSetter {
         alarmPendingIntent.cancel();
 
         Preferences preferences = new Preferences(context);
-        preferences.setAlarmPending(false);
-        preferences.setSnoozeAlarmPending(false);
+        if (mode == SNOOZE_ALARM)
+            preferences.setSnoozeAlarmPending(false);
+        if (mode == REGULAR_ALARM) {
+            preferences.setAlarmPending(false);
+            preferences.setSnoozeAlarmPending(false);
+        }
     }
 }

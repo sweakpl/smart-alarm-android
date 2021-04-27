@@ -7,7 +7,7 @@
     <string name="alert_dialog_ok">Done</string>
     <string name="menu_header">Menu</string>
     <string name="set_alarm_sound">Alarm sound</string>
-    <string name="open_setting_dialog">⟩</string>
+    <string name="open_setting_dialog">></string>
     <string name="set_snooze_duration">Snooze duration</string>
     <string name="set_snooze_number">Snooze number</string>
     <string name="save_qr_code">Save default QR Code to gallery</string>
@@ -18,6 +18,17 @@
     <string name="scan_custom_qr_code">Scan to add custom QR Code</string>
     <string name="reset_qr_code">Reset QR Code to default</string>
     <string name="notification_action">Notification tap action</string>
+    <string name="wrong_code">Wrong code!</string>
+    <string name="new_code_added">New code to dismiss alarm added:</string>
+    <string name="tap_to_try_again">Tap to try again!</string>
+    <string name="camera_granted">Camera permission granted</string>
+    <string name="camera_denied">Camera permission denied</string>
+    <string name="alarm_title">Alarm off!</string>
+    <string name="alarm_description">Time to wake up!</string>
+    <string name="alarm_at">Alarm at:</string>
+    <string name="default_code_added">Default code to dismiss alarm added:</string>
+    <string name="code_added_to_gallery">QR code successfully added to Your gallery, now go and put it somewhere!</string>
+    <string name="code_not_added_to_gallery">Can\'t write to gallery - QR code not saved!</string>
 
     <string-array name="alarm_tones">
         <item>Default System</item>

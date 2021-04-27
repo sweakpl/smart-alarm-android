@@ -17,6 +17,8 @@ import com.google.zxing.BarcodeFormat;
 
 import java.util.Collections;
 
+import static com.sweak.smartalarm.AlarmSetter.REGULAR_ALARM;
+
 public class ScanActivity extends AppCompatActivity {
 
     public static final String SCAN_MODE_KEY = "ScanMode";
@@ -62,7 +64,7 @@ public class ScanActivity extends AppCompatActivity {
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
             if (mScanMode == MODE_DISMISS_ALARM) {
                 if (result.getText().equals(mPreferences.getDismissAlarmCode())) {
-                    AlarmSetter.cancelAlarm(getApplication());
+                    AlarmSetter.cancelAlarm(getApplication(), REGULAR_ALARM);
                     finishAffinity();
                 }
                 else {
@@ -85,14 +87,14 @@ public class ScanActivity extends AppCompatActivity {
 
     private void showWrongCodeToast(String code) {
         Toast.makeText(this,
-                "Wrong code! \"" + code + "\" Tap to try again!",
+                getString(R.string.wrong_code) +  " \"" + code + "\"" + R.string.tap_to_try_again,
                 Toast.LENGTH_LONG)
                 .show();
     }
 
     private void showCodeAdditionToast() {
         Toast.makeText(this,
-                "New code to dismiss alarm added: \"" + mPreferences.getDismissAlarmCode() + "\"",
+                getString(R.string.new_code_added) +  " \"" + mPreferences.getDismissAlarmCode() + "\"",
                 Toast.LENGTH_LONG)
                 .show();
     }
@@ -104,10 +106,10 @@ public class ScanActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 0) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Camera permission granted", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.camera_granted), Toast.LENGTH_LONG).show();
                 startScanning();
             } else {
-                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.camera_denied), Toast.LENGTH_LONG).show();
             }
         }
     }

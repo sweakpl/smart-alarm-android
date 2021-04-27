@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity
     private TextView mAlarmTimeText;
     private Button mStartStopButton;
     private Button mSnoozeButton;
+    private AlphaAnimation mAnimationIn;
+    private AlphaAnimation mAnimationOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity
         findAndAssignViews();
         prepareCurrentTimeTextFormat();
         setAlarmTimeText();
+        prepareAnimations();
         setButtonsAppearance();
         startStartupAnimation();
         setTimePickerResultListener();
@@ -71,12 +75,12 @@ public class MainActivity extends AppCompatActivity
                     enableSnoozeButton();
                 }
                 break;
+            case Preferences.PREFERENCES_ALARM_SET_KEY:
+                setButtonsAppearance();
+                break;
             case Preferences.PREFERENCES_SNOOZE_ALARM_SET_KEY:
                 if (mPreferences.getSnoozeAlarmPending())
                     setAlarmTimeText();
-                break;
-            case Preferences.PREFERENCES_ALARM_SET_KEY:
-                setButtonsAppearance();
                 break;
         }
     }
@@ -111,10 +115,10 @@ public class MainActivity extends AppCompatActivity
     private void setAlarmTimeText() {
         if (!mPreferences.getSnoozeAlarmPending())
             mAlarmTimeText.setText(
-                    String.format("Alarm at: %02d:%02d",
+                    String.format(getString(R.string.alarm_at) + " %02d:%02d",
                             mPreferences.getAlarmHour(), mPreferences.getAlarmMinute()));
         else
-            mAlarmTimeText.setText(String.format("Alarm at: %02d:%02d",
+            mAlarmTimeText.setText(String.format(getString(R.string.alarm_at) + " %02d:%02d",
                     mPreferences.getSnoozeAlarmHour(), mPreferences.getSnoozeAlarmMinute()));
     }
 
@@ -140,24 +144,22 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void enableSnoozeButton() {
-        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
-        animationIn.setDuration(1000);
-        if (mPreferences.getSnoozeNumberLeft() >= 1)
-            mSnoozeButton.startAnimation(animationIn);
+    private void prepareAnimations() {
+        mAnimationIn = new AlphaAnimation(0.0f, 1.0f);
+        mAnimationIn.setDuration(1000);
+
+        mAnimationOut = new AlphaAnimation(1.0f, 0.0f);
+        mAnimationOut.setDuration(1000);
     }
 
     private void startStartupAnimation() {
-        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
-        animationIn.setDuration(1000);
-
-        mCurrentTimeText.startAnimation(animationIn);
-        mAlarmTimeText.startAnimation(animationIn);
-        mStartStopButton.startAnimation(animationIn);
+        mCurrentTimeText.startAnimation(mAnimationIn);
+        mAlarmTimeText.startAnimation(mAnimationIn);
+        mStartStopButton.startAnimation(mAnimationIn);
         if (!mPreferences.getAlarmPending())
-            mMenuButton.startAnimation(animationIn);
+            mMenuButton.startAnimation(mAnimationIn);
         if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0)
-            mSnoozeButton.startAnimation(animationIn);
+            mSnoozeButton.startAnimation(mAnimationIn);
     }
 
     private void setTimePickerResultListener() {
@@ -171,24 +173,23 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    private void disableMenuButton() {
-        mMenuButton.setClickable(false);
-
-        AlphaAnimation animationOut = new AlphaAnimation(1.0f, 0.0f);
-        animationOut.setDuration(1000);
-
-        mMenuButton.startAnimation(animationOut);
-        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.GONE), 1000);
+    public void enableSnoozeButton() {
+        if (mPreferences.getSnoozeNumberLeft() >= 1)
+            mSnoozeButton.startAnimation(mAnimationIn);
     }
 
     private void enableMenuButton() {
         mMenuButton.setClickable(true);
 
-        AlphaAnimation animationIn = new AlphaAnimation(0.0f, 1.0f);
-        animationIn.setDuration(1000);
-
-        mMenuButton.startAnimation(animationIn);
+        mMenuButton.startAnimation(mAnimationIn);
         new Handler().postDelayed(() -> mMenuButton.setVisibility(View.VISIBLE), 1000);
+    }
+
+    private void disableMenuButton() {
+        mMenuButton.setClickable(false);
+
+        mMenuButton.startAnimation(mAnimationOut);
+        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.GONE), 1000);
     }
 
     public void startOrStopAlarm(View view) {

@@ -59,8 +59,8 @@ public class AlarmService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_alarm_on)
-                .setContentTitle("Alarm off!")
-                .setContentText("Time to wake up!")
+                .setContentTitle(getString(R.string.alarm_title))
+                .setContentText(getString(R.string.alarm_description))
                 .setLights(Color.GREEN, 1000, 1000)
                 .setVibrate(vibrationPattern);
 
