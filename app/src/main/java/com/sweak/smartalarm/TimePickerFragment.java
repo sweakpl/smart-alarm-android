@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TimePicker;
@@ -48,12 +49,17 @@ public class TimePickerFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_time_picker, null);
 
         mTimePicker = view.findViewById(R.id.alarm_time_picker);
-        mTimePicker.setIs24HourView(true);
+        setTimeDisplayFormat();
         mTimePicker.setHour(getArguments().getInt(ALARM_HOUR_KEY));
         mTimePicker.setMinute(getArguments().getInt(ALARM_MINUTE_KEY));
 
         dialogBuilder.setView(view);
         return dialogBuilder.create();
+    }
+
+    private void setTimeDisplayFormat() {
+        if (DateFormat.is24HourFormat(getActivity()))
+            mTimePicker.setIs24HourView(true);
     }
 
     @Override

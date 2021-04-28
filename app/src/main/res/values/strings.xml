@@ -25,10 +25,11 @@
     <string name="camera_denied">Camera permission denied</string>
     <string name="alarm_title">Alarm off!</string>
     <string name="alarm_description">Time to wake up!</string>
-    <string name="alarm_at">Alarm at:</string>
+    <string name="alarm_at">Alarm at: %1$s</string>
     <string name="default_code_added">Default code to dismiss alarm added:</string>
     <string name="code_added_to_gallery">QR code successfully added to Your gallery, now go and put it somewhere!</string>
     <string name="code_not_added_to_gallery">Can\'t write to gallery - QR code not saved!</string>
+    <string name="unset">Unset</string>
 
     <string-array name="alarm_tones">
         <item>Default System</item>

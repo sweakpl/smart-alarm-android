@@ -69,12 +69,11 @@ public class AlarmSetter {
 
     private void showSnackbarAlarmSet(Context context, View snackbarView) {
         Preferences preferences = new Preferences(context);
-        String snackbarText = String.format(context.getString(R.string.alarm_at) + " %02d:%02d",
-                    preferences.getAlarmHour(), preferences.getAlarmMinute());
+        String snackbarText = context.getString(R.string.alarm_at, preferences.getAlarmTime());
 
         Snackbar alarmSetSnackbar = Snackbar.make(snackbarView, snackbarText, Snackbar.LENGTH_LONG);
 
-        alarmSetSnackbar.setAction("Unset", v -> {
+        alarmSetSnackbar.setAction(context.getString(R.string.unset), v -> {
             cancelAlarm(context, REGULAR_ALARM);
         });
 
@@ -83,8 +82,7 @@ public class AlarmSetter {
 
     private void showToastSnoozeSet(Context context) {
         Preferences preferences = new Preferences(context);
-        String toastText =  String.format(context.getString(R.string.alarm_at) + " %02d:%02d",
-                preferences.getSnoozeAlarmHour(), preferences.getSnoozeAlarmMinute());
+        String toastText = context.getString(R.string.alarm_at, preferences.getSnoozeAlarmTime());
 
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }

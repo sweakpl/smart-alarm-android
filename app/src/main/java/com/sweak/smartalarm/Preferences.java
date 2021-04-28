@@ -2,8 +2,14 @@ package com.sweak.smartalarm;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.format.DateFormat;
 
+import androidx.annotation.NonNull;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.sweak.smartalarm.App.PREFERENCE_FILE_KEY;
@@ -12,6 +18,7 @@ public class Preferences {
 
     private final SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mPreferencesEditor;
+    private Context mContext;
 
     public static final String PREFERENCES_ALARM_SET_KEY = "alarmSet";
     public static final String PREFERENCES_SNOOZE_ALARM_SET_KEY = "snoozeAlarmSet";
@@ -19,26 +26,29 @@ public class Preferences {
     private static final String PREFERENCES_DISMISS_ALARM_CODE_KEY = "dismissAlarmCode";
     private static final String PREFERENCES_ALARM_HOUR_KEY = "alarmHour";
     private static final String PREFERENCES_ALARM_MINUTE_KEY = "alarmMinute";
+    private static final String PREFERENCES_ALARM_TIME_STRING_KEY = "alarmTimeString";
     private static final String PREFERENCES_SNOOZE_ALARM_HOUR_KEY = "snoozeAlarmHour";
     private static final String PREFERENCES_SNOOZE_ALARM_MINUTE_KEY = "snoozeAlarmMinute";
+    private static final String PREFERENCES_SNOOZE_ALARM_TIME_STRING_KEY = "snoozeAlarmTimeString";
     private static final String PREFERENCES_SNOOZE_DURATION_KEY = "snoozeDuration";
     private static final String PREFERENCES_SNOOZE_NUMBER_KEY = "snoozeNumber";
     private static final String PREFERENCES_SNOOZE_NUMBER_LEFT_KEY = "snoozeNumberLeft";
     private static final String PREFERENCES_ALARM_TONE_ID_KEY = "alarmTone";
 
     public Preferences(Context context) {
-        mSharedPreferences = context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
+        mContext = context;
+        mSharedPreferences = mContext.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
     }
 
-    public static void registerPreferences(Context context,
-                                   SharedPreferences.OnSharedPreferenceChangeListener listener) {
+    public static void registerPreferences(@NonNull Context context,
+                                           SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences preferences =
                 context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
         preferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public static void unregisterPreferences(Context context,
-                                           SharedPreferences.OnSharedPreferenceChangeListener listener) {
+    public static void unregisterPreferences(@NonNull Context context,
+                                             SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences preferences =
                 context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
@@ -92,6 +102,11 @@ public class Preferences {
         mPreferencesEditor.apply();
     }
 
+    public String getAlarmTime() {
+        String time24 = String.format("%02d:%02d", getAlarmHour(), getAlarmMinute());
+        return getCurrentLocaleTimeString(time24);
+    }
+
     public int getAlarmHour() {
         Calendar currentDate = Calendar.getInstance();
         int currentHour = currentDate.get(Calendar.HOUR_OF_DAY);
@@ -109,6 +124,11 @@ public class Preferences {
         mPreferencesEditor.putInt(PREFERENCES_SNOOZE_ALARM_HOUR_KEY, alarmHour);
         mPreferencesEditor.putInt(PREFERENCES_SNOOZE_ALARM_MINUTE_KEY, alarmMinute);
         mPreferencesEditor.apply();
+    }
+
+    public String getSnoozeAlarmTime() {
+        String time24 = String.format("%02d:%02d", getSnoozeAlarmHour(), getSnoozeAlarmMinute());
+        return getCurrentLocaleTimeString(time24);
     }
 
     public int getSnoozeAlarmHour() {
@@ -162,5 +182,29 @@ public class Preferences {
     public int getAlarmToneId() {
         return mSharedPreferences.getInt(PREFERENCES_ALARM_TONE_ID_KEY,
                 AlarmToneManager.DEFAULT_SYSTEM);
+    }
+
+    // helper methods
+
+    private String getCurrentLocaleTimeString(String time24hourFormat) {
+        if (DateFormat.is24HourFormat(mContext))
+            return time24hourFormat;
+        else {
+            SimpleDateFormat time24SDF = new SimpleDateFormat("H:mm");
+            SimpleDateFormat time12SDF = new SimpleDateFormat("h:mm a");
+            Date time24Date = get24hourFormatDate(time24hourFormat, time24SDF);
+            return time12SDF.format(time24Date);
+        }
+    }
+
+    private Date get24hourFormatDate(String time24, @NonNull SimpleDateFormat time24SDF) {
+        Date date = new Date();
+        try {
+            date = time24SDF.parse(time24);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

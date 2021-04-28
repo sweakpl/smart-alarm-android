@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity
         registerReceivers();
         restoreSnoozeNumberLeft();
         findAndAssignViews();
-        prepareCurrentTimeTextFormat();
         setAlarmTimeText();
         prepareAnimations();
         setButtonsAppearance();
@@ -107,18 +106,11 @@ public class MainActivity extends AppCompatActivity
         mSnoozeButton = findViewById(R.id.snooze_button);
     }
 
-    private void prepareCurrentTimeTextFormat() {
-        mCurrentTimeText.setFormat24Hour("HH:mm");
-        mCurrentTimeText.setFormat12Hour("HH:mm");
-    }
-
     private void setAlarmTimeText() {
         if (!mPreferences.getSnoozeAlarmPending())
-            mAlarmTimeText.setText(String.format(getString(R.string.alarm_at) + " %02d:%02d",
-                            mPreferences.getAlarmHour(), mPreferences.getAlarmMinute()));
+            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getAlarmTime()));
         else
-            mAlarmTimeText.setText(String.format(getString(R.string.alarm_at) + " %02d:%02d",
-                    mPreferences.getSnoozeAlarmHour(), mPreferences.getSnoozeAlarmMinute()));
+            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getSnoozeAlarmTime()));
     }
 
     private void setButtonsAppearance() {
