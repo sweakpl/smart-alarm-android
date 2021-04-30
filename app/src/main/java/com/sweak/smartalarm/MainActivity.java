@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -70,12 +69,15 @@ public class MainActivity extends AppCompatActivity
         switch (key) {
             case Preferences.PREFERENCES_ALARM_RINGING_KEY:
                 setButtonsAppearance();
-                if (mPreferences.getAlarmPending() && mPreferences.getAlarmRinging()) {
-                    enableSnoozeButton();
-                }
+                if (mPreferences.getAlarmPending() && mPreferences.getAlarmRinging())
+                    showSnoozeButtonAnimation();
                 break;
             case Preferences.PREFERENCES_ALARM_SET_KEY:
                 setButtonsAppearance();
+                if (mPreferences.getAlarmPending())
+                    disableMenuButton();
+                else
+                    enableMenuButton();
                 break;
             case Preferences.PREFERENCES_SNOOZE_ALARM_SET_KEY:
                 if (mPreferences.getSnoozeAlarmPending())
@@ -118,11 +120,11 @@ public class MainActivity extends AppCompatActivity
         if (!mPreferences.getAlarmPending()) {
             mStartStopButton.setText(R.string.start_alarm);
             mSnoozeButton.setClickable(false);
-            enableMenuButton();
+            mMenuButton.setVisibility(View.VISIBLE);
         }
         else {
             mStartStopButton.setText(R.string.stop_alarm);
-            mMenuButton.setVisibility(View.GONE);
+            mMenuButton.setVisibility(View.INVISIBLE);
             if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0) {
                 mSnoozeButton.setVisibility(View.VISIBLE);
                 mSnoozeButton.setClickable(true);
@@ -130,7 +132,7 @@ public class MainActivity extends AppCompatActivity
             else {
                 mSnoozeButton.setClickable(false);
                 if (!mPreferences.getSnoozeAlarmPending())
-                    disableMenuButton();
+                    mMenuButton.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -164,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    public void enableSnoozeButton() {
+    private void showSnoozeButtonAnimation() {
         if (mPreferences.getSnoozeNumberLeft() >= 1)
             mSnoozeButton.startAnimation(mAnimationIn);
     }
@@ -180,7 +182,7 @@ public class MainActivity extends AppCompatActivity
         mMenuButton.setClickable(false);
 
         mMenuButton.startAnimation(mAnimationOut);
-        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.GONE), 1000);
+        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.INVISIBLE), 1000);
     }
 
     public void startOrStopAlarm(View view) {
