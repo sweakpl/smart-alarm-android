@@ -1,12 +1,11 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.PowerManager;
 
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import com.sweak.smartalarm.service.AlarmService;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

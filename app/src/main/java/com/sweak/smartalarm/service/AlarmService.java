@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,6 +17,12 @@ import android.os.PowerManager;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.sweak.smartalarm.util.AlarmToneManager;
+import com.sweak.smartalarm.util.Preferences;
+import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.receiver.SnoozeReceiver;
+import com.sweak.smartalarm.activity.ScanActivity;
 
 import java.io.IOException;
 

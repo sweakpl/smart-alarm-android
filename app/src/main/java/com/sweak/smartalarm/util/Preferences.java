@@ -1,10 +1,10 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 
-import androidx.annotation.NonNull;
+import com.sweak.smartalarm.App;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ public class Preferences {
 
     private final SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mPreferencesEditor;
-    private Context mContext;
+    private final Context mContext;
 
     public static final String PREFERENCES_ALARM_SET_KEY = "alarmSet";
     public static final String PREFERENCES_SNOOZE_ALARM_SET_KEY = "snoozeAlarmSet";
@@ -26,10 +26,8 @@ public class Preferences {
     private static final String PREFERENCES_DISMISS_ALARM_CODE_KEY = "dismissAlarmCode";
     private static final String PREFERENCES_ALARM_HOUR_KEY = "alarmHour";
     private static final String PREFERENCES_ALARM_MINUTE_KEY = "alarmMinute";
-    private static final String PREFERENCES_ALARM_TIME_STRING_KEY = "alarmTimeString";
     private static final String PREFERENCES_SNOOZE_ALARM_HOUR_KEY = "snoozeAlarmHour";
     private static final String PREFERENCES_SNOOZE_ALARM_MINUTE_KEY = "snoozeAlarmMinute";
-    private static final String PREFERENCES_SNOOZE_ALARM_TIME_STRING_KEY = "snoozeAlarmTimeString";
     private static final String PREFERENCES_SNOOZE_DURATION_KEY = "snoozeDuration";
     private static final String PREFERENCES_SNOOZE_NUMBER_KEY = "snoozeNumber";
     private static final String PREFERENCES_SNOOZE_NUMBER_LEFT_KEY = "snoozeNumberLeft";
@@ -40,14 +38,14 @@ public class Preferences {
         mSharedPreferences = mContext.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
     }
 
-    public static void registerPreferences(@NonNull Context context,
+    public static void registerPreferences(Context context,
                                            SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences preferences =
                 context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
         preferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
-    public static void unregisterPreferences(@NonNull Context context,
+    public static void unregisterPreferences(Context context,
                                              SharedPreferences.OnSharedPreferenceChangeListener listener) {
         SharedPreferences preferences =
                 context.getSharedPreferences(PREFERENCE_FILE_KEY, MODE_PRIVATE);
@@ -102,7 +100,7 @@ public class Preferences {
         mPreferencesEditor.apply();
     }
 
-    public String getAlarmTime() {
+    public String getAlarmTimeString() {
         String time24 = String.format("%02d:%02d", getAlarmHour(), getAlarmMinute());
         return getCurrentLocaleTimeString(time24);
     }
@@ -126,7 +124,7 @@ public class Preferences {
         mPreferencesEditor.apply();
     }
 
-    public String getSnoozeAlarmTime() {
+    public String getSnoozeAlarmTimeString() {
         String time24 = String.format("%02d:%02d", getSnoozeAlarmHour(), getSnoozeAlarmMinute());
         return getCurrentLocaleTimeString(time24);
     }
@@ -197,7 +195,7 @@ public class Preferences {
         }
     }
 
-    private Date get24hourFormatDate(String time24, @NonNull SimpleDateFormat time24SDF) {
+    private Date get24hourFormatDate(String time24, SimpleDateFormat time24SDF) {
         Date date = new Date();
         try {
             date = time24SDF.parse(time24);

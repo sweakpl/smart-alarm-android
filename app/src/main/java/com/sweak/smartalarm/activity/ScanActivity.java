@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,10 +14,13 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.google.zxing.BarcodeFormat;
+import com.sweak.smartalarm.util.AlarmSetter;
+import com.sweak.smartalarm.util.Preferences;
+import com.sweak.smartalarm.R;
 
 import java.util.Collections;
 
-import static com.sweak.smartalarm.AlarmSetter.REGULAR_ALARM;
+import static com.sweak.smartalarm.util.AlarmSetter.REGULAR_ALARM;
 
 public class ScanActivity extends AppCompatActivity {
 

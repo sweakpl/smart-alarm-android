@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.fragment;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TimePicker;
+
+import com.sweak.smartalarm.R;
 
 public class TimePickerFragment extends DialogFragment {
 

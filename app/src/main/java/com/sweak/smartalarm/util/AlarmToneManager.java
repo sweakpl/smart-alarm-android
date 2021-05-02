@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.util;
 
 import android.media.RingtoneManager;
 import android.net.Uri;

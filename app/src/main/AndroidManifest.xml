@@ -17,27 +17,27 @@
         android:roundIcon="@mipmap/smart_alarm_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAlarm">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity" />
-        <activity android:name=".ScanActivity" />
+        <activity android:name=".activity.MenuActivity" />
+        <activity android:name=".activity.ScanActivity" />
 
         <service
-            android:name=".AlarmService"
+            android:name=".service.AlarmService"
             android:enabled="true"
             android:exported="false" />
 
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".receiver.AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".SnoozeReceiver"
+            android:name=".receiver.SnoozeReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -45,7 +45,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".ShutdownReceiver"
+            android:name=".receiver.ShutdownReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

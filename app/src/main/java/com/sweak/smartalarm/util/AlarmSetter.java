@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.util;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.receiver.AlarmReceiver;
+import com.sweak.smartalarm.service.AlarmService;
 
 import java.util.Calendar;
 
@@ -69,7 +72,7 @@ public class AlarmSetter {
 
     private void showSnackbarAlarmSet(Context context, View snackbarView) {
         Preferences preferences = new Preferences(context);
-        String snackbarText = context.getString(R.string.alarm_at, preferences.getAlarmTime());
+        String snackbarText = context.getString(R.string.alarm_at, preferences.getAlarmTimeString());
 
         Snackbar alarmSetSnackbar = Snackbar.make(snackbarView, snackbarText, Snackbar.LENGTH_LONG);
 
@@ -82,7 +85,7 @@ public class AlarmSetter {
 
     private void showToastSnoozeSet(Context context) {
         Preferences preferences = new Preferences(context);
-        String toastText = context.getString(R.string.alarm_at, preferences.getSnoozeAlarmTime());
+        String toastText = context.getString(R.string.alarm_at, preferences.getSnoozeAlarmTimeString());
 
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }

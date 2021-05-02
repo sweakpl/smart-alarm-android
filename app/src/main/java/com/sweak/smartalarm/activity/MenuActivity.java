@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.sweak.smartalarm.fragment.AboutDialogFragment;
+import com.sweak.smartalarm.App;
+import com.sweak.smartalarm.util.Preferences;
+import com.sweak.smartalarm.R;
 
 public class MenuActivity extends AppCompatActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback {

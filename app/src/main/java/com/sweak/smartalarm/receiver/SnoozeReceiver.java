@@ -1,12 +1,15 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.sweak.smartalarm.util.AlarmSetter;
+import com.sweak.smartalarm.util.Preferences;
+
 import java.util.Calendar;
 
-import static com.sweak.smartalarm.AlarmSetter.SNOOZE_ALARM;
+import static com.sweak.smartalarm.util.AlarmSetter.SNOOZE_ALARM;
 
 public class SnoozeReceiver extends BroadcastReceiver {
 

@@ -1,4 +1,4 @@
-package com.sweak.smartalarm;
+package com.sweak.smartalarm.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -14,6 +14,13 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.TextView;
+
+import com.sweak.smartalarm.util.AlarmSetter;
+import com.sweak.smartalarm.util.Preferences;
+import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.receiver.ShutdownReceiver;
+import com.sweak.smartalarm.receiver.SnoozeReceiver;
+import com.sweak.smartalarm.fragment.TimePickerFragment;
 
 import static android.content.Intent.ACTION_SHUTDOWN;
 import static com.sweak.smartalarm.App.ACTION_SNOOZE;
@@ -110,9 +117,9 @@ public class MainActivity extends AppCompatActivity
 
     private void setAlarmTimeText() {
         if (!mPreferences.getSnoozeAlarmPending())
-            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getAlarmTime()));
+            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getAlarmTimeString()));
         else
-            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getSnoozeAlarmTime()));
+            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getSnoozeAlarmTimeString()));
     }
 
     private void setButtonsAppearance() {
