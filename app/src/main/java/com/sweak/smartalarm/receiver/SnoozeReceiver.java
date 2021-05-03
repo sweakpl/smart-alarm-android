@@ -13,7 +13,7 @@ import static com.sweak.smartalarm.util.AlarmSetter.SNOOZE_ALARM;
 
 public class SnoozeReceiver extends BroadcastReceiver {
 
-    Preferences mPreferences;
+    private Preferences mPreferences;
 
     public SnoozeReceiver() {}
 

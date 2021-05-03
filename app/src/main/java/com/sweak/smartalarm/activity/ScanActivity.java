@@ -8,7 +8,9 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -35,12 +37,19 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setDismissKeyguard();
+
         setContentView(R.layout.activity_scan);
 
         mPreferences = new Preferences(getApplication());
 
         retrieveScanMode();
         checkForPermissionsAndStartScanning();
+    }
+
+    private void setDismissKeyguard() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
     }
 
     private void checkForPermissionsAndStartScanning() {
@@ -55,7 +64,7 @@ public class ScanActivity extends AppCompatActivity {
 
     private void retrieveScanMode() {
         Intent intent = getIntent();
-        mScanMode = intent.getIntExtra(getApplication().getPackageName() + SCAN_MODE_KEY,
+        mScanMode = intent.getIntExtra(this.getPackageName() + SCAN_MODE_KEY,
                 MODE_DISMISS_ALARM);
     }
 

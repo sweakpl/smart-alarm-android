@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
@@ -17,6 +18,7 @@
         android:roundIcon="@mipmap/smart_alarm_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAlarm">
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.LockScreenActivity"
+            android:showWhenLocked="true"
+            android:showOnLockScreen="true"
+            android:excludeFromRecents="true" />
         <activity android:name=".activity.MenuActivity" />
         <activity android:name=".activity.ScanActivity" />
 

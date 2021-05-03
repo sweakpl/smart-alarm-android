@@ -1,5 +1,6 @@
 package com.sweak.smartalarm.service;
 
+import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.sweak.smartalarm.activity.LockScreenActivity;
 import com.sweak.smartalarm.util.AlarmToneManager;
 import com.sweak.smartalarm.util.Preferences;
 import com.sweak.smartalarm.R;
@@ -91,6 +93,12 @@ public class AlarmService extends Service {
         builder.addAction(R.drawable.ic_alarm_on, getString(R.string.stop_alarm), scanPendingIntent);
         if (mPreferences.getSnoozeNumberLeft() != 0)
             builder.addAction(R.drawable.ic_alarm_snooze, getString(R.string.snooze), snoozePendingIntent);
+
+        // full screen intent
+        Intent lockScreenIntent = new Intent(getApplication(), LockScreenActivity.class);
+        PendingIntent lockScreenPendingIntent =
+                PendingIntent.getActivity(this, NOTIFICATION_ID, lockScreenIntent, 0);
+        builder.setFullScreenIntent(lockScreenPendingIntent, true);
     }
 
     private void prepareMediaPlayer() {
@@ -103,17 +111,6 @@ public class AlarmService extends Service {
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void wakeUpTheScreen(Context context) {
-        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-        boolean isScreenOn = powerManager.isInteractive();
-        if (!isScreenOn) {
-            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(
-                    PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
-                    "App:AlarmReceiver");
-            wakeLock.acquire(10000);
         }
     }
 
@@ -133,6 +130,17 @@ public class AlarmService extends Service {
         wakeUpTheScreen(getApplication());
 
         return START_STICKY;
+    }
+
+    private void wakeUpTheScreen(Context context) {
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        boolean isScreenOn = powerManager.isInteractive();
+        if (!isScreenOn) {
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(
+                    PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    "App:AlarmReceiver");
+            wakeLock.acquire(10000);
+        }
     }
 
     @Override

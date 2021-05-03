@@ -131,7 +131,7 @@ public class MenuActivity extends AppCompatActivity
 
     public void addCustomQRDismissCode(View view) {
         Intent addCodeIntent = new Intent(this, ScanActivity.class);
-        addCodeIntent.putExtra(this.getPackageName() + ScanActivity.SCAN_MODE_KEY,
+        addCodeIntent.putExtra(ScanActivity.class.getPackage().getName() + ScanActivity.SCAN_MODE_KEY,
                 ScanActivity.MODE_SET_DISMISS_CODE);
         startActivity(addCodeIntent);
     }
