@@ -19,23 +19,13 @@ import static com.sweak.smartalarm.App.ACTION_SNOOZE;
 
 public class LockScreenActivity extends AppCompatActivity {
 
-    private SnoozeReceiver mSnoozeReceiver;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         makeActivityShownOnLock();
-        registerSnoozeReceiver();
         setContentView(R.layout.activity_lock_screen);
         prepareSnoozeButton();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
     }
 
     private void makeActivityShownOnLock() {
@@ -47,13 +37,6 @@ public class LockScreenActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                             | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         }
-    }
-
-    private void registerSnoozeReceiver() {
-        mSnoozeReceiver = new SnoozeReceiver();
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                mSnoozeReceiver, new IntentFilter(ACTION_SNOOZE));
     }
 
     private void prepareSnoozeButton() {
