@@ -64,8 +64,7 @@ public class ScanActivity extends AppCompatActivity {
 
     private void retrieveScanMode() {
         Intent intent = getIntent();
-        mScanMode = intent.getIntExtra(this.getPackageName() + SCAN_MODE_KEY,
-                MODE_DISMISS_ALARM);
+        mScanMode = intent.getIntExtra(SCAN_MODE_KEY, MODE_DISMISS_ALARM);
     }
 
     private void startScanning() {
@@ -99,7 +98,8 @@ public class ScanActivity extends AppCompatActivity {
 
     private void showWrongCodeToast(String code) {
         Toast.makeText(this,
-                getString(R.string.wrong_code) +  " \"" + code + "\"" + R.string.tap_to_try_again,
+                getString(R.string.wrong_code) +  " \"" + code + "\" " +
+                        getString(R.string.tap_to_try_again),
                 Toast.LENGTH_LONG)
                 .show();
     }

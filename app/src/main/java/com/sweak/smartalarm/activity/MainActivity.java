@@ -198,8 +198,7 @@ public class MainActivity extends AppCompatActivity
                     findViewById(R.id.main_layout));
         } else {
             Intent intent = new Intent(this, ScanActivity.class);
-            intent.putExtra(ScanActivity.class.getPackage().getName() + ScanActivity.SCAN_MODE_KEY,
-                    ScanActivity.MODE_DISMISS_ALARM);
+            intent.putExtra(ScanActivity.SCAN_MODE_KEY, ScanActivity.MODE_DISMISS_ALARM);
             startActivity(intent);
         }
     }

@@ -1,6 +1,5 @@
 package com.sweak.smartalarm.service;
 
-import android.app.KeyguardManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -80,6 +79,7 @@ public class AlarmService extends Service {
 
     private void setNotificationIntents(NotificationCompat.Builder builder) {
         Intent scanIntent = new Intent(this, ScanActivity.class);
+        scanIntent.putExtra(ScanActivity.SCAN_MODE_KEY, ScanActivity.MODE_DISMISS_ALARM);
         PendingIntent scanPendingIntent = PendingIntent.getActivity
                 (this, NOTIFICATION_ID, scanIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

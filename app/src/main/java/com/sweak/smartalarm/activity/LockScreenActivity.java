@@ -54,8 +54,7 @@ public class LockScreenActivity extends AppCompatActivity {
 
     public void stopAlarm(View view) {
         Intent intent = new Intent(this, ScanActivity.class);
-        intent.putExtra(ScanActivity.class.getPackage().getName() + ScanActivity.SCAN_MODE_KEY,
-                ScanActivity.MODE_DISMISS_ALARM);
+        intent.putExtra(ScanActivity.SCAN_MODE_KEY, ScanActivity.MODE_DISMISS_ALARM);
         startActivity(intent);
 
         dismissKeyguard();
