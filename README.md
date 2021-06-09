@@ -6,9 +6,9 @@ No more oversleeping with *SmartAlarm*! Download the default QR code and print i
 
 ## Screenshots
 <p>
-	<img src="./screenshots/mainScreen.jpg" width="196" height="308"/>
-	<img src="./screenshots/menuScreen.jpg" width="196" height="308"/>
-	<img src="./screenshots/scanScreen.jpg" width="196" height="308"/>
+	<img src="./screenshots/mainScreen.jpg" width="196" height="416"/>
+	<img src="./screenshots/menuScreen.jpg" width="196" height="416"/>
+	<img src="./screenshots/scanScreen.jpg" width="196" height="416"/>
 </p>
 
 ## Setup
