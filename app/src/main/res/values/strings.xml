@@ -37,6 +37,9 @@
         <item>Sunny Day</item>
         <item>Alarm Clock</item>
         <item>Analog Watch</item>
+        <item>Air Horn Short</item>
+        <item>Air Horn Long</item>
+        <item>Siren Noise</item>
     </string-array>
 
     <string-array name="snooze_durations">
