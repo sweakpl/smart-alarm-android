@@ -43,16 +43,31 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
                     android:layout_margin="16dp"
                     android:text="@string/set_alarm_sound"
                     android:textSize="20sp"/>
 
-                <Spinner
-                    android:id="@+id/alarm_tone_spinner"
-                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp" />
+                    android:orientation="vertical"
+                    android:layout_margin="16dp" >
+
+                    <Spinner
+                        android:id="@+id/alarm_tone_spinner"
+                        style="@style/Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_action_button"
+                        android:layout_gravity="center"
+                        android:text="@string/preview"
+                        android:onClick="startAlarmPreview"/>
+                </LinearLayout>
             </LinearLayout>
 
             <include layout="@layout/line_separator" />

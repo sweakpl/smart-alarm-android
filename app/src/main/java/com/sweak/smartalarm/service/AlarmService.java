@@ -19,6 +19,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.sweak.smartalarm.activity.LockScreenActivity;
+import com.sweak.smartalarm.util.AlarmPlayer;
 import com.sweak.smartalarm.util.AlarmToneManager;
 import com.sweak.smartalarm.util.Preferences;
 import com.sweak.smartalarm.R;
@@ -35,8 +36,8 @@ public class AlarmService extends Service {
 
     private Preferences mPreferences;
     private NotificationManager mNotificationManager;
+    private AlarmPlayer mAlarmPlayer;
     private SnoozeReceiver mSnoozeReceiver;
-    private MediaPlayer mMediaPlayer;
     private Notification mNotification;
 
     @Override
@@ -45,12 +46,11 @@ public class AlarmService extends Service {
 
         mPreferences = new Preferences(getApplication());
         mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        mMediaPlayer = new MediaPlayer();
+        mAlarmPlayer = new AlarmPlayer(this);
 
         mPreferences.setSnoozeAlarmPending(false);
         registerSnoozeReceiver();
         prepareNotification();
-        prepareMediaPlayer();
     }
 
     private void registerSnoozeReceiver() {
@@ -101,24 +101,11 @@ public class AlarmService extends Service {
         builder.setFullScreenIntent(lockScreenPendingIntent, true);
     }
 
-    private void prepareMediaPlayer() {
-        try {
-            mMediaPlayer.setDataSource(this,
-                    AlarmToneManager.getAlarmToneUri(mPreferences.getAlarmToneId()));
-            mMediaPlayer.setAudioAttributes(
-                    new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).build());
-            mMediaPlayer.setLooping(true);
-            mMediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mPreferences.setAlarmRinging(true);
 
-        mMediaPlayer.start();
+        mAlarmPlayer.startAlarm(mPreferences.getAlarmToneId());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(NOTIFICATION_ID, mNotification);
@@ -149,7 +136,7 @@ public class AlarmService extends Service {
 
         mPreferences.setAlarmRinging(false);
 
-        mMediaPlayer.stop();
+        mAlarmPlayer.stop();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             stopForeground(true);

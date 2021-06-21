@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.sweak.smartalarm.fragment.AboutDialogFragment;
 import com.sweak.smartalarm.App;
+import com.sweak.smartalarm.util.AlarmPlayer;
 import com.sweak.smartalarm.util.Preferences;
 import com.sweak.smartalarm.R;
 
@@ -30,9 +31,10 @@ public class MenuActivity extends AppCompatActivity
     private final int WRITE_GALLERY_PERMISSION_REQUEST_CODE = 1;
 
     private Preferences mPreferences;
-    Spinner mAlarmToneSpinner;
-    Spinner mSnoozeDurationSpinner;
-    Spinner mSnoozeNumberSpinner;
+    private AlarmPlayer mAlarmPlayer;
+    private Spinner mAlarmToneSpinner;
+    private Spinner mSnoozeDurationSpinner;
+    private Spinner mSnoozeNumberSpinner;
     ArrayAdapter<CharSequence> mAlarmToneAdapter;
     ArrayAdapter<CharSequence> mSnoozeDurationAdapter;
     ArrayAdapter<CharSequence> mSnoozeNumberAdapter;
@@ -43,9 +45,17 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
 
         mPreferences = new Preferences(getApplication());
+        mAlarmPlayer = new AlarmPlayer(getApplication());
         findAndAssignViews();
         prepareViews();
         setSpinnerListeners();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mAlarmPlayer.stop();
     }
 
     private void findAndAssignViews() {
@@ -82,6 +92,7 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mPreferences.setAlarmToneId(position);
+                mAlarmPlayer.stop();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -171,5 +182,9 @@ public class MenuActivity extends AppCompatActivity
                         Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void startAlarmPreview(View view) {
+        mAlarmPlayer.startPreview(mPreferences.getAlarmToneId());
     }
 }

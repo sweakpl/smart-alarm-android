@@ -30,6 +30,7 @@
     <string name="code_added_to_gallery">QR code successfully added to Your gallery, now go and put it somewhere!</string>
     <string name="code_not_added_to_gallery">Can\'t write to gallery - QR code not saved!</string>
     <string name="unset">Unset</string>
+    <string name="preview">Preview</string>
 
     <string-array name="alarm_tones">
         <item>Default System</item>
