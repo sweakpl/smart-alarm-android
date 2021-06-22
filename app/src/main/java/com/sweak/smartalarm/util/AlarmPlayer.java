@@ -14,6 +14,12 @@ public class AlarmPlayer {
     public AlarmPlayer(Context context) {
         mMediaPlayer = new MediaPlayer();
         mContext = context;
+
+        setAlarmPreparedListener();
+    }
+
+    public void setAlarmPreparedListener() {
+        mMediaPlayer.setOnPreparedListener(MediaPlayer::start);
     }
 
     public void setAlarmTone(int alarmToneId) {
@@ -53,7 +59,6 @@ public class AlarmPlayer {
 
         setAlarmTone(alarmToneId);
         prepareAlarmPlayer();
-        mMediaPlayer.start();
     }
 
     public void startPreview(int alarmToneId) {
@@ -61,7 +66,6 @@ public class AlarmPlayer {
 
         setAlarmTone(alarmToneId);
         prepareAlarmPreviewPlayer();
-        mMediaPlayer.start();
     }
 
     public void stop() {

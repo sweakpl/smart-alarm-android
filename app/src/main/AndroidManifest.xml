@@ -18,6 +18,9 @@
         android:roundIcon="@mipmap/smart_alarm_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAlarm">
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/keep" />
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -26,10 +29,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LockScreenActivity"
-            android:showWhenLocked="true"
+        <activity
+            android:name=".activity.LockScreenActivity"
+            android:excludeFromRecents="true"
             android:showOnLockScreen="true"
-            android:excludeFromRecents="true" />
+            android:showWhenLocked="true" />
         <activity android:name=".activity.MenuActivity" />
         <activity android:name=".activity.ScanActivity" />
 
