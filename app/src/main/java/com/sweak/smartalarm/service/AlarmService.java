@@ -132,10 +132,7 @@ public class AlarmService extends Service {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-
         mPreferences.setAlarmRinging(false);
-
         mAlarmPlayer.stop();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -146,6 +143,8 @@ public class AlarmService extends Service {
         }
 
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
+
+        super.onDestroy();
     }
 
     @Nullable

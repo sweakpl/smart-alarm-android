@@ -65,10 +65,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
-        Preferences.unregisterPreferences(this, this);
+    protected void onPause() {
+        if (isFinishing()) {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mSnoozeReceiver);
+            Preferences.unregisterPreferences(this, this);
+        }
+        super.onPause();
     }
 
     @Override
