@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:text="@string/open_setting_dialog"
-    android:textStyle="bold"
+    android:textAlignment="viewEnd"
     android:textSize="20sp"
-    android:textAlignment="viewEnd">
-</TextView>
+    android:textStyle="bold" />

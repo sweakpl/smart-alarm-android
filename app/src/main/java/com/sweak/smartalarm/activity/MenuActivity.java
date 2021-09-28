@@ -40,7 +40,7 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         mBinding = ActivityMenuBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
@@ -87,8 +87,10 @@ public class MenuActivity extends AppCompatActivity
                 mPreferences.setAlarmToneId(position);
                 mAlarmPlayer.stop();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         mBinding.snoozeDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -96,8 +98,10 @@ public class MenuActivity extends AppCompatActivity
                 mPreferences.setSnoozeDuration(Integer.parseInt(
                         parent.getItemAtPosition(position).toString()));
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
         mBinding.snoozeNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -107,8 +111,10 @@ public class MenuActivity extends AppCompatActivity
                 mPreferences.setSnoozeNumberLeft(snoozeNumber);
                 mBinding.snoozeDurationSpinner.setEnabled(snoozeNumber != 0);
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -120,15 +126,14 @@ public class MenuActivity extends AppCompatActivity
     public void saveCodeToGallery(View view) {
         if (hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             insertCodeImage();
-        }
-        else {
+        } else {
             ActivityCompat.requestPermissions(this,
-                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     WRITE_GALLERY_PERMISSION_REQUEST_CODE);
         }
     }
 
-    private boolean hasPermission(Context context, String permission){
+    private boolean hasPermission(Context context, String permission) {
         return ContextCompat.checkSelfPermission(context, permission)
                 == PackageManager.PERMISSION_GRANTED;
     }
@@ -142,7 +147,7 @@ public class MenuActivity extends AppCompatActivity
     public void resetQRDismissCode(View view) {
         mPreferences.setDismissAlarmCode(App.DEFAULT_DISMISS_ALARM_CODE);
         Toast.makeText(this,
-                 getString(R.string.default_code_added) + " \"" + App.DEFAULT_DISMISS_ALARM_CODE + "\"",
+                getString(R.string.default_code_added) + " \"" + App.DEFAULT_DISMISS_ALARM_CODE + "\"",
                 Toast.LENGTH_LONG)
                 .show();
     }
@@ -168,8 +173,7 @@ public class MenuActivity extends AppCompatActivity
         if (requestCode == WRITE_GALLERY_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 insertCodeImage();
-            }
-            else {
+            } else {
                 Toast.makeText(this,
                         getString(R.string.code_not_added_to_gallery),
                         Toast.LENGTH_LONG).show();

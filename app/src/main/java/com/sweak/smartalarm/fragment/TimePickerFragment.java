@@ -19,7 +19,8 @@ public class TimePickerFragment extends DialogFragment {
     public static final String ALARM_MINUTE_KEY = "alarmMinute";
     public static final String REQUEST_KEY = "timePickerData";
 
-    public TimePickerFragment() {}
+    public TimePickerFragment() {
+    }
 
     public static TimePickerFragment newInstance(int alarmHour, int alarmMinute) {
         TimePickerFragment fragment = new TimePickerFragment();

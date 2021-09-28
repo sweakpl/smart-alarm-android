@@ -1,5 +1,9 @@
 package com.sweak.smartalarm.service;
 
+import static com.sweak.smartalarm.App.ACTION_SNOOZE;
+import static com.sweak.smartalarm.App.CHANNEL_ID;
+import static com.sweak.smartalarm.App.NOTIFICATION_ID;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -8,8 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.media.AudioAttributes;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -18,19 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.sweak.smartalarm.activity.LockScreenActivity;
-import com.sweak.smartalarm.util.AlarmPlayer;
-import com.sweak.smartalarm.util.AlarmToneManager;
-import com.sweak.smartalarm.util.Preferences;
 import com.sweak.smartalarm.R;
-import com.sweak.smartalarm.receiver.SnoozeReceiver;
+import com.sweak.smartalarm.activity.LockScreenActivity;
 import com.sweak.smartalarm.activity.ScanActivity;
-
-import java.io.IOException;
-
-import static com.sweak.smartalarm.App.ACTION_SNOOZE;
-import static com.sweak.smartalarm.App.CHANNEL_ID;
-import static com.sweak.smartalarm.App.NOTIFICATION_ID;
+import com.sweak.smartalarm.receiver.SnoozeReceiver;
+import com.sweak.smartalarm.util.AlarmPlayer;
+import com.sweak.smartalarm.util.Preferences;
 
 public class AlarmService extends Service {
 
@@ -45,7 +40,7 @@ public class AlarmService extends Service {
         super.onCreate();
 
         mPreferences = new Preferences(getApplication());
-        mNotificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mAlarmPlayer = new AlarmPlayer(this);
 
         mPreferences.setSnoozeAlarmPending(false);
@@ -109,8 +104,7 @@ public class AlarmService extends Service {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForeground(NOTIFICATION_ID, mNotification);
-        }
-        else {
+        } else {
             mNotificationManager.notify(NOTIFICATION_ID, mNotification);
         }
 
@@ -137,8 +131,7 @@ public class AlarmService extends Service {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             stopForeground(true);
-        }
-        else {
+        } else {
             mNotificationManager.cancel(NOTIFICATION_ID);
         }
 

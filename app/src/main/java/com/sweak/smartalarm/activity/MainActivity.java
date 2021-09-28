@@ -117,15 +117,13 @@ public class MainActivity extends AppCompatActivity
             mBinding.startStopAlarmButton.setText(R.string.start_alarm);
             mBinding.snoozeButton.setClickable(false);
             mBinding.menuButton.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             mBinding.startStopAlarmButton.setText(R.string.stop_alarm);
             mBinding.menuButton.setVisibility(View.INVISIBLE);
             if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0) {
                 mBinding.snoozeButton.setVisibility(View.VISIBLE);
                 mBinding.snoozeButton.setClickable(true);
-            }
-            else {
+            } else {
                 mBinding.snoozeButton.setClickable(false);
                 if (!mPreferences.getSnoozeAlarmPending())
                     mBinding.menuButton.setVisibility(View.INVISIBLE);

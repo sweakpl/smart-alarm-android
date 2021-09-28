@@ -15,7 +15,8 @@ public class AboutDialogFragment extends DialogFragment {
 
     private FragmentAboutDialogBinding mBinding;
 
-    public AboutDialogFragment() {}
+    public AboutDialogFragment() {
+    }
 
     public static AboutDialogFragment newInstance() {
         return new AboutDialogFragment();

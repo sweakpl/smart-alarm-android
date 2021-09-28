@@ -58,7 +58,7 @@ public class ScanActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(this,
-                    new String[] {Manifest.permission.CAMERA}, 0);
+                    new String[]{Manifest.permission.CAMERA}, 0);
         } else {
             startScanning();
         }
@@ -78,12 +78,10 @@ public class ScanActivity extends AppCompatActivity {
                 if (result.getText().equals(mPreferences.getDismissAlarmCode())) {
                     AlarmSetter.cancelAlarm(getApplication(), REGULAR_ALARM);
                     finishAffinity();
-                }
-                else {
+                } else {
                     showWrongCodeToast(result.getText());
                 }
-            }
-            else if (mScanMode == MODE_SET_DISMISS_CODE) {
+            } else if (mScanMode == MODE_SET_DISMISS_CODE) {
                 mPreferences.setDismissAlarmCode(result.getText());
                 showCodeAdditionToast();
                 finish();
@@ -99,7 +97,7 @@ public class ScanActivity extends AppCompatActivity {
 
     private void showWrongCodeToast(String code) {
         Toast.makeText(this,
-                getString(R.string.wrong_code) +  " \"" + code + "\" " +
+                getString(R.string.wrong_code) + " \"" + code + "\" " +
                         getString(R.string.tap_to_try_again),
                 Toast.LENGTH_LONG)
                 .show();
@@ -107,7 +105,7 @@ public class ScanActivity extends AppCompatActivity {
 
     private void showCodeAdditionToast() {
         Toast.makeText(this,
-                getString(R.string.new_code_added) +  " \"" + mPreferences.getDismissAlarmCode() + "\"",
+                getString(R.string.new_code_added) + " \"" + mPreferences.getDismissAlarmCode() + "\"",
                 Toast.LENGTH_LONG)
                 .show();
     }
@@ -130,14 +128,14 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(mCodeScanner != null) {
+        if (mCodeScanner != null) {
             mCodeScanner.startPreview();
         }
     }
 
     @Override
     protected void onPause() {
-        if(mCodeScanner != null) {
+        if (mCodeScanner != null) {
             mCodeScanner.releaseResources();
         }
         super.onPause();

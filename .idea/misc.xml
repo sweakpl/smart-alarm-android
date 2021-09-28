@@ -3,8 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/drawable-anydpi-v24/ic_alarm_on.xml" value="0.2703125" />
+        <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/drawable-anydpi-v24/ic_alarm_snooze.xml" value="0.2703125" />
+        <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/drawable/custom_action_button.xml" value="0.2703125" />
+        <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/drawable/custom_menu_button.xml" value="0.2703125" />
         <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/layout/activity_lock_screen.xml" value="0.176" />
         <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/layout/activity_main.xml" value="0.22780797101449277" />
+        <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/layout/activity_menu.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/layout/fragment_about_dialog.xml" value="0.13722826086956522" />
         <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/layout/fragment_time_picker.xml" value="0.11927083333333334" />
         <entry key="..\:/Users/Lenovo/Desktop/Android/SmartAlarm/app/src/main/res/layout/open_setting_dialog_arrow.xml" value="0.11927083333333334" />
       </map>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,7 +17,7 @@
             android:layout_weight="1"
             android:text="@string/menu_header"
             android:textSize="40sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <include layout="@layout/line_separator" />
@@ -42,17 +41,17 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/set_alarm_sound"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="16dp" >
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
 
                     <Spinner
                         android:id="@+id/alarm_tone_spinner"
@@ -63,10 +62,10 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/custom_action_button"
                         android:layout_gravity="center"
-                        android:text="@string/preview"
-                        android:onClick="startAlarmPreview"/>
+                        android:background="@drawable/custom_action_button"
+                        android:onClick="startAlarmPreview"
+                        android:text="@string/preview" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -82,10 +81,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/set_snooze_duration"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <Spinner
                     android:id="@+id/snooze_duration_spinner"
@@ -107,10 +106,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/set_snooze_number"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <Spinner
                     android:id="@+id/snooze_number_spinner"
@@ -133,10 +132,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/save_qr_code"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
@@ -154,10 +153,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/scan_custom_qr_code"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
@@ -175,10 +174,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/reset_qr_code"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>
@@ -196,10 +195,10 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_margin="16dp"
+                    android:layout_weight="1"
                     android:text="@string/about"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp" />
 
                 <include layout="@layout/open_setting_dialog_arrow" />
             </LinearLayout>

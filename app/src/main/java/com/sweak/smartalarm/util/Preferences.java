@@ -1,5 +1,8 @@
 package com.sweak.smartalarm.util;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.sweak.smartalarm.App.PREFERENCE_FILE_KEY;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.format.DateFormat;
@@ -10,9 +13,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import static android.content.Context.MODE_PRIVATE;
-import static com.sweak.smartalarm.App.PREFERENCE_FILE_KEY;
 
 public class Preferences {
 
@@ -199,8 +199,7 @@ public class Preferences {
         Date date = new Date();
         try {
             date = time24SDF.parse(time24);
-        }
-        catch (ParseException e) {
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         return date;

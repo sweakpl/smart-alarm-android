@@ -1,5 +1,7 @@
 package com.sweak.smartalarm.receiver;
 
+import static com.sweak.smartalarm.util.AlarmSetter.SNOOZE_ALARM;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +11,12 @@ import com.sweak.smartalarm.util.Preferences;
 
 import java.util.Calendar;
 
-import static com.sweak.smartalarm.util.AlarmSetter.SNOOZE_ALARM;
-
 public class SnoozeReceiver extends BroadcastReceiver {
 
     private Preferences mPreferences;
 
-    public SnoozeReceiver() {}
+    public SnoozeReceiver() {
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
