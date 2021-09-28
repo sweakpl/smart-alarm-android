@@ -1,9 +1,6 @@
 package com.sweak.smartalarm.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import static com.sweak.smartalarm.util.AlarmSetter.REGULAR_ALARM;
 
 import android.Manifest;
 import android.content.Intent;
@@ -13,16 +10,19 @@ import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.budiyev.android.codescanner.CodeScanner;
-import com.budiyev.android.codescanner.CodeScannerView;
 import com.google.zxing.BarcodeFormat;
+import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.databinding.ActivityScanBinding;
 import com.sweak.smartalarm.util.AlarmSetter;
 import com.sweak.smartalarm.util.Preferences;
-import com.sweak.smartalarm.R;
 
 import java.util.Collections;
-
-import static com.sweak.smartalarm.util.AlarmSetter.REGULAR_ALARM;
 
 public class ScanActivity extends AppCompatActivity {
 
@@ -30,8 +30,9 @@ public class ScanActivity extends AppCompatActivity {
     public static final int MODE_DISMISS_ALARM = 0;
     public static final int MODE_SET_DISMISS_CODE = 1;
 
-    private int mScanMode;
+    private ActivityScanBinding mBinding;
     private CodeScanner mCodeScanner;
+    private int mScanMode;
     private Preferences mPreferences;
 
     @Override
@@ -39,7 +40,8 @@ public class ScanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setDismissKeyguard();
 
-        setContentView(R.layout.activity_scan);
+        mBinding = ActivityScanBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         mPreferences = new Preferences(getApplication());
 
@@ -68,8 +70,7 @@ public class ScanActivity extends AppCompatActivity {
     }
 
     private void startScanning() {
-        CodeScannerView scannerView = findViewById(R.id.scanner_view);
-        mCodeScanner = new CodeScanner(this, scannerView);
+        mCodeScanner = new CodeScanner(this, mBinding.scannerView);
         setScanFormatToQR();
 
         mCodeScanner.setDecodeCallback(result -> runOnUiThread(() -> {
@@ -89,7 +90,7 @@ public class ScanActivity extends AppCompatActivity {
             }
         }));
 
-        scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
+        mBinding.scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
     }
 
     private void setScanFormatToQR() {

@@ -11,10 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
-import android.widget.TextClock;
-import android.widget.TextView;
 
+import com.sweak.smartalarm.databinding.ActivityMainBinding;
 import com.sweak.smartalarm.util.AlarmSetter;
 import com.sweak.smartalarm.util.Preferences;
 import com.sweak.smartalarm.R;
@@ -32,25 +30,22 @@ public class MainActivity extends AppCompatActivity
     private AlarmSetter mAlarmSetter;
     private SnoozeReceiver mSnoozeReceiver;
     private ShutdownReceiver mShutdownReceiver;
-    private Button mMenuButton;
-    private TextClock mCurrentTimeText;
-    private TextView mAlarmTimeText;
-    private Button mStartStopButton;
-    private Button mSnoozeButton;
+    private ActivityMainBinding mBinding;
     private AlphaAnimation mAnimationIn;
     private AlphaAnimation mAnimationOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         mPreferences = new Preferences(getApplication());
         mAlarmSetter = new AlarmSetter();
 
         registerReceivers();
         restoreSnoozeNumberLeft();
-        findAndAssignViews();
         setAlarmTimeText();
         prepareAnimations();
         setButtonsAppearance();
@@ -109,39 +104,31 @@ public class MainActivity extends AppCompatActivity
             mPreferences.setSnoozeNumberLeft(mPreferences.getSnoozeNumber());
     }
 
-    private void findAndAssignViews() {
-        mMenuButton = findViewById(R.id.menu_button);
-        mCurrentTimeText = findViewById(R.id.current_time_text);
-        mAlarmTimeText = findViewById(R.id.alarm_time_text);
-        mStartStopButton = findViewById(R.id.start_stop_alarm_button);
-        mSnoozeButton = findViewById(R.id.snooze_button);
-    }
-
     private void setAlarmTimeText() {
         if (!mPreferences.getSnoozeAlarmPending())
-            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getAlarmTimeString()));
+            mBinding.alarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getAlarmTimeString()));
         else
-            mAlarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getSnoozeAlarmTimeString()));
+            mBinding.alarmTimeText.setText(getString(R.string.alarm_at, mPreferences.getSnoozeAlarmTimeString()));
     }
 
     private void setButtonsAppearance() {
-        mSnoozeButton.setVisibility(View.INVISIBLE);
+        mBinding.snoozeButton.setVisibility(View.INVISIBLE);
         if (!mPreferences.getAlarmPending()) {
-            mStartStopButton.setText(R.string.start_alarm);
-            mSnoozeButton.setClickable(false);
-            mMenuButton.setVisibility(View.VISIBLE);
+            mBinding.startStopAlarmButton.setText(R.string.start_alarm);
+            mBinding.snoozeButton.setClickable(false);
+            mBinding.menuButton.setVisibility(View.VISIBLE);
         }
         else {
-            mStartStopButton.setText(R.string.stop_alarm);
-            mMenuButton.setVisibility(View.INVISIBLE);
+            mBinding.startStopAlarmButton.setText(R.string.stop_alarm);
+            mBinding.menuButton.setVisibility(View.INVISIBLE);
             if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0) {
-                mSnoozeButton.setVisibility(View.VISIBLE);
-                mSnoozeButton.setClickable(true);
+                mBinding.snoozeButton.setVisibility(View.VISIBLE);
+                mBinding.snoozeButton.setClickable(true);
             }
             else {
-                mSnoozeButton.setClickable(false);
+                mBinding.snoozeButton.setClickable(false);
                 if (!mPreferences.getSnoozeAlarmPending())
-                    mMenuButton.setVisibility(View.INVISIBLE);
+                    mBinding.menuButton.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -155,13 +142,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void startStartupAnimation() {
-        mCurrentTimeText.startAnimation(mAnimationIn);
-        mAlarmTimeText.startAnimation(mAnimationIn);
-        mStartStopButton.startAnimation(mAnimationIn);
+        mBinding.currentTimeText.startAnimation(mAnimationIn);
+        mBinding.alarmTimeText.startAnimation(mAnimationIn);
+        mBinding.startStopAlarmButton.startAnimation(mAnimationIn);
         if (!mPreferences.getAlarmPending())
-            mMenuButton.startAnimation(mAnimationIn);
+            mBinding.menuButton.startAnimation(mAnimationIn);
         if (mPreferences.getAlarmRinging() && mPreferences.getSnoozeNumberLeft() != 0)
-            mSnoozeButton.startAnimation(mAnimationIn);
+            mBinding.snoozeButton.startAnimation(mAnimationIn);
     }
 
     private void setTimePickerResultListener() {
@@ -177,21 +164,21 @@ public class MainActivity extends AppCompatActivity
 
     private void showSnoozeButtonAnimation() {
         if (mPreferences.getSnoozeNumberLeft() >= 1)
-            mSnoozeButton.startAnimation(mAnimationIn);
+            mBinding.snoozeButton.startAnimation(mAnimationIn);
     }
 
     private void enableMenuButton() {
-        mMenuButton.setClickable(true);
+        mBinding.menuButton.setClickable(true);
 
-        mMenuButton.startAnimation(mAnimationIn);
-        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.VISIBLE), 1000);
+        mBinding.menuButton.startAnimation(mAnimationIn);
+        new Handler().postDelayed(() -> mBinding.menuButton.setVisibility(View.VISIBLE), 1000);
     }
 
     private void disableMenuButton() {
-        mMenuButton.setClickable(false);
+        mBinding.menuButton.setClickable(false);
 
-        mMenuButton.startAnimation(mAnimationOut);
-        new Handler().postDelayed(() -> mMenuButton.setVisibility(View.INVISIBLE), 1000);
+        mBinding.menuButton.startAnimation(mAnimationOut);
+        new Handler().postDelayed(() -> mBinding.menuButton.setVisibility(View.INVISIBLE), 1000);
     }
 
     public void startOrStopAlarm(View view) {

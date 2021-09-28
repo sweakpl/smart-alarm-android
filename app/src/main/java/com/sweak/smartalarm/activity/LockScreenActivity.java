@@ -1,30 +1,31 @@
 package com.sweak.smartalarm.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import static com.sweak.smartalarm.App.ACTION_SNOOZE;
 
 import android.app.KeyguardManager;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.sweak.smartalarm.R;
-import com.sweak.smartalarm.receiver.SnoozeReceiver;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.sweak.smartalarm.databinding.ActivityLockScreenBinding;
 import com.sweak.smartalarm.util.Preferences;
 
-import static com.sweak.smartalarm.App.ACTION_SNOOZE;
-
 public class LockScreenActivity extends AppCompatActivity {
+
+    private ActivityLockScreenBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         makeActivityShownOnLock();
-        setContentView(R.layout.activity_lock_screen);
+        mBinding = ActivityLockScreenBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
         prepareSnoozeButton();
     }
 
@@ -43,7 +44,7 @@ public class LockScreenActivity extends AppCompatActivity {
         Preferences preferences = new Preferences(this);
 
         if (preferences.getSnoozeNumberLeft() == 0)
-            findViewById(R.id.lock_snooze_button).setEnabled(false);
+            mBinding.lockSnoozeButton.setEnabled(false);
     }
 
     public void snoozeAlarm(View view) {

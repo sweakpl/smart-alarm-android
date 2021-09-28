@@ -1,11 +1,5 @@
 package com.sweak.smartalarm.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -16,14 +10,20 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.sweak.smartalarm.fragment.AboutDialogFragment;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
+
 import com.sweak.smartalarm.App;
+import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.databinding.ActivityMenuBinding;
+import com.sweak.smartalarm.fragment.AboutDialogFragment;
 import com.sweak.smartalarm.util.AlarmPlayer;
 import com.sweak.smartalarm.util.Preferences;
-import com.sweak.smartalarm.R;
 
 public class MenuActivity extends AppCompatActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback {
@@ -32,9 +32,7 @@ public class MenuActivity extends AppCompatActivity
 
     private Preferences mPreferences;
     private AlarmPlayer mAlarmPlayer;
-    private Spinner mAlarmToneSpinner;
-    private Spinner mSnoozeDurationSpinner;
-    private Spinner mSnoozeNumberSpinner;
+    private ActivityMenuBinding mBinding;
     ArrayAdapter<CharSequence> mAlarmToneAdapter;
     ArrayAdapter<CharSequence> mSnoozeDurationAdapter;
     ArrayAdapter<CharSequence> mSnoozeNumberAdapter;
@@ -42,11 +40,12 @@ public class MenuActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        
+        mBinding = ActivityMenuBinding.inflate(getLayoutInflater());
+        setContentView(mBinding.getRoot());
 
         mPreferences = new Preferences(getApplication());
         mAlarmPlayer = new AlarmPlayer(getApplication());
-        findAndAssignViews();
         prepareViews();
         setSpinnerListeners();
     }
@@ -56,12 +55,6 @@ public class MenuActivity extends AppCompatActivity
         super.onPause();
 
         mAlarmPlayer.stop();
-    }
-
-    private void findAndAssignViews() {
-        mAlarmToneSpinner = findViewById(R.id.alarm_tone_spinner);
-        mSnoozeDurationSpinner = findViewById(R.id.snooze_duration_spinner);
-        mSnoozeNumberSpinner = findViewById(R.id.snooze_number_spinner);
     }
 
     private void prepareViews() {
@@ -76,19 +69,19 @@ public class MenuActivity extends AppCompatActivity
         mSnoozeDurationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSnoozeNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        mAlarmToneSpinner.setAdapter(mAlarmToneAdapter);
-        mSnoozeDurationSpinner.setAdapter(mSnoozeDurationAdapter);
-        mSnoozeNumberSpinner.setAdapter(mSnoozeNumberAdapter);
+        mBinding.alarmToneSpinner.setAdapter(mAlarmToneAdapter);
+        mBinding.snoozeDurationSpinner.setAdapter(mSnoozeDurationAdapter);
+        mBinding.snoozeNumberSpinner.setAdapter(mSnoozeNumberAdapter);
 
-        mAlarmToneSpinner.setSelection(mPreferences.getAlarmToneId());
-        mSnoozeDurationSpinner.setSelection(mSnoozeDurationAdapter.getPosition(
+        mBinding.alarmToneSpinner.setSelection(mPreferences.getAlarmToneId());
+        mBinding.snoozeDurationSpinner.setSelection(mSnoozeDurationAdapter.getPosition(
                 String.valueOf(mPreferences.getSnoozeDuration())));
-        mSnoozeNumberSpinner.setSelection(mSnoozeNumberAdapter.getPosition(
+        mBinding.snoozeNumberSpinner.setSelection(mSnoozeNumberAdapter.getPosition(
                 String.valueOf(mPreferences.getSnoozeNumber())));
     }
 
     private void setSpinnerListeners() {
-        mAlarmToneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mBinding.alarmToneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mPreferences.setAlarmToneId(position);
@@ -97,7 +90,7 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-        mSnoozeDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mBinding.snoozeDurationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 mPreferences.setSnoozeDuration(Integer.parseInt(
@@ -106,13 +99,13 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-        mSnoozeNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mBinding.snoozeNumberSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int snoozeNumber = Integer.parseInt(parent.getItemAtPosition(position).toString());
                 mPreferences.setSnoozeNumber(snoozeNumber);
                 mPreferences.setSnoozeNumberLeft(snoozeNumber);
-                mSnoozeDurationSpinner.setEnabled(snoozeNumber != 0);
+                mBinding.snoozeDurationSpinner.setEnabled(snoozeNumber != 0);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}

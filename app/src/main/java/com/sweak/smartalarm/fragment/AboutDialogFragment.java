@@ -8,12 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-
 import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.databinding.FragmentAboutDialogBinding;
 
 public class AboutDialogFragment extends DialogFragment {
+
+    private FragmentAboutDialogBinding mBinding;
 
     public AboutDialogFragment() {}
 
@@ -24,19 +24,24 @@ public class AboutDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.about)
                 .setPositiveButton(R.string.alert_dialog_ok, null);
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.fragment_about_dialog, null);
+        mBinding = FragmentAboutDialogBinding.inflate(requireActivity().getLayoutInflater());
 
-        dialogBuilder.setView(view);
+        dialogBuilder.setView(mBinding.getRoot());
         return dialogBuilder.create();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mBinding = null;
     }
 }
