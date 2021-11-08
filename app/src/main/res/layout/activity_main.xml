@@ -39,7 +39,7 @@
             android:textSize="40sp"
             android:textStyle="bold" />
 
-        <Button
+        <com.sweak.smartalarm.ui.PopButton
             android:id="@+id/start_stop_alarm_button"
             android:layout_width="200dp"
             android:layout_height="60dp"
@@ -49,7 +49,7 @@
             android:text="@string/start_alarm"
             android:textSize="20sp" />
 
-        <Button
+        <com.sweak.smartalarm.ui.PopButton
             android:id="@+id/snooze_button"
             android:layout_width="150dp"
             android:layout_height="45dp"
@@ -61,7 +61,7 @@
             android:textSize="15sp" />
     </LinearLayout>
 
-    <Button
+    <com.sweak.smartalarm.ui.PopButton
         android:id="@+id/menu_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
