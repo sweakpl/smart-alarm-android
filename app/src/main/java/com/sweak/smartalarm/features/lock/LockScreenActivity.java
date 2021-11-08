@@ -1,6 +1,6 @@
-package com.sweak.smartalarm.activity;
+package com.sweak.smartalarm.features.lock;
 
-import static com.sweak.smartalarm.App.ACTION_SNOOZE;
+import static com.sweak.smartalarm.SmartAlarmApplication.ACTION_SNOOZE;
 
 import android.app.KeyguardManager;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.sweak.smartalarm.databinding.ActivityLockScreenBinding;
+import com.sweak.smartalarm.features.scan.ScanActivity;
 import com.sweak.smartalarm.util.Preferences;
 
 public class LockScreenActivity extends AppCompatActivity {

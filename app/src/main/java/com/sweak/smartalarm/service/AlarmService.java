@@ -1,8 +1,8 @@
 package com.sweak.smartalarm.service;
 
-import static com.sweak.smartalarm.App.ACTION_SNOOZE;
-import static com.sweak.smartalarm.App.CHANNEL_ID;
-import static com.sweak.smartalarm.App.NOTIFICATION_ID;
+import static com.sweak.smartalarm.SmartAlarmApplication.ACTION_SNOOZE;
+import static com.sweak.smartalarm.SmartAlarmApplication.CHANNEL_ID;
+import static com.sweak.smartalarm.SmartAlarmApplication.NOTIFICATION_ID;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -21,8 +21,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.sweak.smartalarm.R;
-import com.sweak.smartalarm.activity.LockScreenActivity;
-import com.sweak.smartalarm.activity.ScanActivity;
+import com.sweak.smartalarm.features.lock.LockScreenActivity;
+import com.sweak.smartalarm.features.scan.ScanActivity;
 import com.sweak.smartalarm.receiver.SnoozeReceiver;
 import com.sweak.smartalarm.util.AlarmPlayer;
 import com.sweak.smartalarm.util.Preferences;

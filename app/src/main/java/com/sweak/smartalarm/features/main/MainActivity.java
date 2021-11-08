@@ -1,4 +1,4 @@
-package com.sweak.smartalarm.activity;
+package com.sweak.smartalarm.features.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -12,16 +12,17 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 
+import com.sweak.smartalarm.features.menu.MenuActivity;
+import com.sweak.smartalarm.features.scan.ScanActivity;
 import com.sweak.smartalarm.databinding.ActivityMainBinding;
 import com.sweak.smartalarm.util.AlarmSetter;
 import com.sweak.smartalarm.util.Preferences;
 import com.sweak.smartalarm.R;
 import com.sweak.smartalarm.receiver.ShutdownReceiver;
 import com.sweak.smartalarm.receiver.SnoozeReceiver;
-import com.sweak.smartalarm.fragment.TimePickerFragment;
 
 import static android.content.Intent.ACTION_SHUTDOWN;
-import static com.sweak.smartalarm.App.ACTION_SNOOZE;
+import static com.sweak.smartalarm.SmartAlarmApplication.ACTION_SNOOZE;
 
 public class MainActivity extends AppCompatActivity
         implements SharedPreferences.OnSharedPreferenceChangeListener {

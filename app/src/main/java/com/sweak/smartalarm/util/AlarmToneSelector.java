@@ -3,7 +3,7 @@ package com.sweak.smartalarm.util;
 import android.media.RingtoneManager;
 import android.net.Uri;
 
-public class AlarmToneManager {
+public class AlarmToneSelector {
     public static final int DEFAULT_SYSTEM = 0;
     public static final int GENTLE_GUITAR = 1;
     public static final int SUNNY_DAY = 2;

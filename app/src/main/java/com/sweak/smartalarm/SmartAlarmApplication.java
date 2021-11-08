@@ -5,7 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.graphics.Color;
 
-public class App extends Application {
+public class SmartAlarmApplication extends Application {
     public static final String PREFERENCE_FILE_KEY = BuildConfig.APPLICATION_ID + ".SHARED_PREFERENCES_KEY";
     public static final String ACTION_SNOOZE = BuildConfig.APPLICATION_ID + ".ACTION_SNOOZE";
     public static final String DEFAULT_DISMISS_ALARM_CODE = "StopAlarm";

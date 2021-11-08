@@ -1,13 +1,13 @@
 package com.sweak.smartalarm.util;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.sweak.smartalarm.App.PREFERENCE_FILE_KEY;
+import static com.sweak.smartalarm.SmartAlarmApplication.PREFERENCE_FILE_KEY;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.format.DateFormat;
 
-import com.sweak.smartalarm.App;
+import com.sweak.smartalarm.SmartAlarmApplication;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,7 +90,7 @@ public class Preferences {
 
     public String getDismissAlarmCode() {
         return mSharedPreferences.getString(PREFERENCES_DISMISS_ALARM_CODE_KEY,
-                App.DEFAULT_DISMISS_ALARM_CODE);
+                SmartAlarmApplication.DEFAULT_DISMISS_ALARM_CODE);
     }
 
     public void setAlarmTime(int alarmHour, int alarmMinute) {
@@ -179,7 +179,7 @@ public class Preferences {
 
     public int getAlarmToneId() {
         return mSharedPreferences.getInt(PREFERENCES_ALARM_TONE_ID_KEY,
-                AlarmToneManager.DEFAULT_SYSTEM);
+                AlarmToneSelector.DEFAULT_SYSTEM);
     }
 
     // helper methods

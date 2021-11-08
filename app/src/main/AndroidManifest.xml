@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
-        android:name=".App"
+        android:name=".SmartAlarmApplication"
         android:allowBackup="true"
         android:icon="@mipmap/smart_alarm_icon"
         android:label="@string/app_name"
@@ -22,7 +22,7 @@
             android:resource="@xml/keep" />
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".features.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,12 +31,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.LockScreenActivity"
+            android:name=".features.lock.LockScreenActivity"
             android:excludeFromRecents="true"
             android:showOnLockScreen="true"
             android:showWhenLocked="true" />
-        <activity android:name=".activity.MenuActivity" />
-        <activity android:name=".activity.ScanActivity" />
+        <activity android:name=".features.menu.MenuActivity" />
+        <activity android:name=".features.scan.ScanActivity" />
 
         <service
             android:name=".service.AlarmService"

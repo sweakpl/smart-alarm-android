@@ -1,4 +1,4 @@
-package com.sweak.smartalarm.activity;
+package com.sweak.smartalarm.features.scan;
 
 import static com.sweak.smartalarm.util.AlarmSetter.REGULAR_ALARM;
 

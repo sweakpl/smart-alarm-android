@@ -24,7 +24,7 @@ public class AlarmPlayer {
 
     public void setAlarmTone(int alarmToneId) {
         try {
-            mMediaPlayer.setDataSource(mContext, AlarmToneManager.getAlarmToneUri(alarmToneId));
+            mMediaPlayer.setDataSource(mContext, AlarmToneSelector.getAlarmToneUri(alarmToneId));
         } catch (IOException e) {
             e.printStackTrace();
         }

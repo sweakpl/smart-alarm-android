@@ -1,6 +1,6 @@
 package com.sweak.smartalarm.util;
 
-import static com.sweak.smartalarm.App.NOTIFICATION_ID;
+import static com.sweak.smartalarm.SmartAlarmApplication.NOTIFICATION_ID;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

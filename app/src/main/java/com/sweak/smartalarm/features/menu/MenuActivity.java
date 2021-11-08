@@ -1,4 +1,4 @@
-package com.sweak.smartalarm.activity;
+package com.sweak.smartalarm.features.menu;
 
 import android.Manifest;
 import android.content.Context;
@@ -18,10 +18,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
-import com.sweak.smartalarm.App;
+import com.sweak.smartalarm.SmartAlarmApplication;
 import com.sweak.smartalarm.R;
+import com.sweak.smartalarm.features.scan.ScanActivity;
 import com.sweak.smartalarm.databinding.ActivityMenuBinding;
-import com.sweak.smartalarm.fragment.AboutDialogFragment;
 import com.sweak.smartalarm.util.AlarmPlayer;
 import com.sweak.smartalarm.util.Preferences;
 
@@ -145,9 +145,9 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void resetQRDismissCode(View view) {
-        mPreferences.setDismissAlarmCode(App.DEFAULT_DISMISS_ALARM_CODE);
+        mPreferences.setDismissAlarmCode(SmartAlarmApplication.DEFAULT_DISMISS_ALARM_CODE);
         Toast.makeText(this,
-                getString(R.string.default_code_added) + " \"" + App.DEFAULT_DISMISS_ALARM_CODE + "\"",
+                getString(R.string.default_code_added) + " \"" + SmartAlarmApplication.DEFAULT_DISMISS_ALARM_CODE + "\"",
                 Toast.LENGTH_LONG)
                 .show();
     }

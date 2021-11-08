@@ -1,4 +1,4 @@
-package com.sweak.smartalarm.fragment;
+package com.sweak.smartalarm.features.main;
 
 import android.app.Dialog;
 import android.os.Bundle;
