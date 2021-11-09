@@ -60,6 +60,7 @@ public class PopButton extends AppCompatButton {
         super.onTouchEvent(event);
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            animationDown.start();
             animationUp.end();
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             animationDown.end();
