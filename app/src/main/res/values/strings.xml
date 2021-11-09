@@ -27,7 +27,8 @@
     <string name="alarm_at">Alarm at: %1$s</string>
     <string name="default_code_added">Default code to dismiss alarm added:</string>
     <string name="code_added_to_gallery">QR code successfully added to Your gallery, now go and put it somewhere!</string>
-    <string name="code_not_added_to_gallery">Can\'t write to gallery - QR code not saved!</string>
+    <string name="code_not_added_to_gallery">Failed to save the QR code to gallery…</string>
+    <string name="code_not_added_to_gallery_version_issue">On Android 11 and 12 this function is temporarily unavailable. Please scan Your own QR code…</string>
     <string name="unset">Unset</string>
     <string name="preview">Preview</string>
 

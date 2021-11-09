@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -124,12 +125,19 @@ public class MenuActivity extends AppCompatActivity
     }
 
     public void saveCodeToGallery(View view) {
-        if (hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            insertCodeImage();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            if (hasPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                insertCodeImage();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        WRITE_GALLERY_PERMISSION_REQUEST_CODE);
+            }
         } else {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_GALLERY_PERMISSION_REQUEST_CODE);
+            Toast.makeText(this,
+                    getString(R.string.code_not_added_to_gallery_version_issue),
+                    Toast.LENGTH_LONG)
+                    .show();
         }
     }
 
@@ -153,15 +161,19 @@ public class MenuActivity extends AppCompatActivity
     }
 
     private void insertCodeImage() {
-        MediaStore.Images.Media.insertImage(
+        String toastMessage;
+
+        String savedUri = MediaStore.Images.Media.insertImage(
                 getContentResolver(),
                 BitmapFactory.decodeResource(getResources(), R.drawable.qr_code),
                 "SmartAlarm QR Code",
                 "Code used to turn off the SmartAlarm alarm");
 
-        Toast.makeText(this,
-                getString(R.string.code_added_to_gallery),
-                Toast.LENGTH_LONG).show();
+        toastMessage = savedUri != null ?
+                getString(R.string.code_added_to_gallery)
+                : getString(R.string.code_not_added_to_gallery);
+
+        Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
