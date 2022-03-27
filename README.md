@@ -1,5 +1,16 @@
+
 # SmartAlarm
+
+
 > *SmartAlarm* is an Android alarm clock application that does not only wake You up, but also makes You get up to disable the alarm by scanning the QR Code.
+
+# Project no longer maintained!
+**Note:** The *SmartAlarm* project is no longer maintained by its owner. The new, refurbished version of *SmartAlarm* - *QRAlarm* is now available and:
+-  is, as opposed to *SmartAlarm*, fully supporting all Android versions,
+-  has majority of bugs present in *SmartAlarm* fixed,
+-  has a fresh and aesthetic look.
+
+In order to download it and/or contribute, please head over to the [repository page of *QRAlarm*](https://github.com/sweakpl/qralarm-android)!
 
 ## General info
 No more oversleeping with *SmartAlarm*! Download the default QR code and print it, or scan Your own, put it in a place remote from Your bed, turn on the alarm and prepare for a more productive morning! SmartAlarm will make You not only wake up, but also get up to actually turn off the alarm (unless You make the alarm snooze). 
